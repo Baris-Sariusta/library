@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\StoreBookRequest;
 use App\Http\Requests\Api\V1\UpdateBookRequest;
+use App\Http\Resources\V1\BookResource;
 use App\Models\Book;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class BookController extends Controller
+class BookController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -36,9 +37,15 @@ class BookController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Book $book)
+    public function show(string|int $book_id) : BookResource|string
     {
-        //
+        try
+        {
+            return new BookResource(Book::findOrFail($book_id));
+        } catch (ModelNotFoundException $exception)
+        {
+            return $this->error('Book not found', 404);
+        }
     }
 
     /**
