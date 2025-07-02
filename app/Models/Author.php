@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Book extends Model
+class Author extends Model
 {
-    /** @use HasFactory<\Database\Factories\BookFactory> */
+    /** @use HasFactory<\Database\Factories\AuthorFactory> */
     use HasFactory;
 
     /**
@@ -17,10 +18,8 @@ class Book extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
-        'published_at',
-        'description',
-        'genre',
+        'name',
+        'bio',
     ];
 
     /**
@@ -33,10 +32,10 @@ class Book extends Model
     ];
 
     /**
-     * Get the authors for the book.
+     * Get the books for the author.
      */
-    public function authors() : BelongsTo
+    public function books() : hasMany
     {
-        return $this->belongsTo(Author::class);
+        return $this->hasMany(Book::class);
     }
 }
