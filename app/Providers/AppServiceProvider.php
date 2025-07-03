@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+/** @untested */
 class AppServiceProvider extends ServiceProvider
 {
     /**

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Traits\ApiResponses;
 use Illuminate\Http\Request;
 
+/** @untested */
 class ApiController extends Controller
 {
     use ApiResponses;

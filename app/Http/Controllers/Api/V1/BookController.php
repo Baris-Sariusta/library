@@ -10,6 +10,7 @@ use App\Http\Resources\V1\BookResource;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+/** @untested */
 class BookController extends ApiController
 {
     /**

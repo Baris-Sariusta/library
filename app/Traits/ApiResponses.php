@@ -4,6 +4,7 @@
 
 namespace App\Traits;
 
+/** @untested */
 trait ApiResponses {
     protected function ok($message, $data = []) : string {
         return $this->success($message, $data, 200);
