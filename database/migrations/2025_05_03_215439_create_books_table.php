@@ -16,11 +16,10 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->date('published_at')->nullable();
-            $table->string('genre')->nullable();
             $table->string('language', 50)->nullable();
             $table->decimal('price', 8, 2)->nullable();
             $table->string('publisher')->nullable();
-            $table->tinyInteger('rating')->nullable();
+            $table->tinyInteger('average_rating')->nullable();
             $table->string('cover_image')->nullable();
             $table->timestamps();
         });
