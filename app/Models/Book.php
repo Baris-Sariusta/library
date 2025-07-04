@@ -7,6 +7,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Contracts\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /** @untested */
 class Book extends Model
@@ -36,10 +38,34 @@ class Book extends Model
     ];
 
     /**
-     * Get the authors for the book.
+     * Get the author for the book.
      */
-    public function authors() : BelongsTo
+    public function author() : BelongsTo
     {
         return $this->belongsTo(Author::class);
+    }
+
+    /**
+     * Get the ratings for the book.
+     */
+    public function ratings() : HasMany
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    /**
+     * Get the genres for the book.
+     */
+    public function genres() : BelongsToMany
+    {
+        return $this->belongsToMany(Genre::class);
+    }
+
+    /**
+     * Get the loans for the book.
+     */
+    public function loans() : HasMany
+    {
+        return $this->hasMany(Loan::class);
     }
 }
