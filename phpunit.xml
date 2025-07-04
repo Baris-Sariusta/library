@@ -34,4 +34,8 @@
             <directory>./app</directory>
         </include>
     </source>
+
+    <php>
+        <env name="APP_ENV" value="testing" />
+    </php>
 </phpunit>
