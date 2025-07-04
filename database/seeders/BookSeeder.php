@@ -22,7 +22,7 @@ final class BookSeeder extends Seeder
             // Attach 1 to 3 random genres to each book...
             ->each(function ($book)
             {
-                $genres = Genre::query()->inRandomOrder()->take(rand(1, 3))->pluck('id');
+                $genres = Genre::query()->inRandomOrder()->take(random_int(1, 3))->pluck('id');
                 $book->genres()->attach($genres);
             });
     }

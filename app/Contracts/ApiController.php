@@ -2,15 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Contracts;
 
-use App\Http\Controllers\Controller;
 use App\Traits\ApiResponses;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 
 /** @untested */
-final class ApiController extends Controller
+abstract class ApiController
 {
     use ApiResponses;
+    use AuthorizesRequests;
+    use ValidatesRequests;
 
     protected ApiController $policyClass;
 
