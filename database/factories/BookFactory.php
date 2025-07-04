@@ -22,18 +22,11 @@ class BookFactory extends Factory
             'author_id' => Author::factory(),
             'description' => $this->faker->paragraph(),
             'published_at' => $this->faker->date(),
-            'genre' => $this->faker->randomElement([
-                'Science Fiction',
-                'Fantasy',
-                'Thriller',
-                'Mystery',
-                'Romance'
-            ]),
             'language' => $this->faker->languageCode(),
             'price' => $this->faker->randomFloat(2, 5, 50),
             'publisher' => $this->faker->company(),
-            'rating' => $this->faker->numberBetween(1, 5),
-            'cover_image' => null,
+            'average_rating' => $this->faker->numberBetween(1, 5),
+            'cover_image' => $this->faker->imageUrl(),
         ];
     }
 }

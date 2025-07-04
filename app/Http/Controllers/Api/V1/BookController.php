@@ -45,7 +45,8 @@ class BookController extends ApiController
         try
         {
             return new BookResource(Book::findOrFail($book_id));
-        } catch (ModelNotFoundException $exception)
+        }
+        catch (ModelNotFoundException $exception)
         {
             return $this->error('Book not found', 404);
         }

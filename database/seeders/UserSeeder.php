@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\Loan;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class LoanSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Loan::factory()->count(15)->create();
+        User::factory()->count(35)->create([]);
     }
 }

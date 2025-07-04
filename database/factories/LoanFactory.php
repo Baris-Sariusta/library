@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Book;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,11 @@ class LoanFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'book_id' => Book::factory(),
+            'loan_date' => $this->faker->date(),
+            'return_date' => $this->faker->optional()->date(),
+            'status' => $this->faker->randomElement(['ongoing', 'returned', 'late']),
         ];
     }
 }

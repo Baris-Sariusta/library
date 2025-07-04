@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Rating;
 use Illuminate\Database\Seeder;
 
 class RatingSeeder extends Seeder
@@ -12,6 +12,6 @@ class RatingSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Rating::factory()->count(35)->create();
     }
 }
