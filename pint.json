@@ -1,0 +1,54 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "array_push": true,
+        "concat_space": {
+            "spacing": "one"
+        },
+        "control_structure_continuation_position": {
+            "position": "next_line"
+        },
+        "curly_braces_position": {
+            "control_structures_opening_brace": "next_line_unless_newline_at_signature_end",
+            "anonymous_functions_opening_brace": "next_line_unless_newline_at_signature_end",
+            "anonymous_classes_opening_brace": "next_line_unless_newline_at_signature_end"
+        },
+        "date_time_immutable": true,
+        "declare_strict_types": true,
+        "final_class": true,
+        "final_internal_class": true,
+        "global_namespace_import": {
+            "import_classes": true,
+            "import_constants": true,
+            "import_functions": true
+        },
+        "mb_str_functions": true,
+        "modernize_types_casting": true,
+        "new_with_parentheses": false,
+        "no_extra_blank_lines": {
+            "tokens": [
+                "curly_brace_block",
+                "extra",
+                "throw",
+                "use"
+            ]
+        },
+        "no_superfluous_elseif": true,
+        "no_useless_else": true,
+        "phpdoc_separation": {
+            "groups": [
+                ["param"],
+                ["return"]
+            ]
+        },
+        "return_type_declaration": {
+            "space_before": "one"
+        },
+        "self_accessor": true,
+        "single_trait_insert_per_statement": true,
+        "single_line_comment_spacing": true,
+        "single_line_empty_body": true,
+        "strict_comparison": true,
+        "visibility_required": true
+    }
+}

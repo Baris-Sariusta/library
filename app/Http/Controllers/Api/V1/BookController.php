@@ -11,7 +11,7 @@ use App\Models\Book;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 /** @untested */
-class BookController extends ApiController
+final class BookController extends ApiController
 {
     /**
      * Display a listing of the resource.

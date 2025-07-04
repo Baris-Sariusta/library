@@ -18,7 +18,7 @@ abstract class Model extends BaseModel
 
         if ($as)
         {
-           $table .= " as {$as}";
+            $table .= " as {$as}";
         }
 
         return $table;
@@ -30,7 +30,7 @@ abstract class Model extends BaseModel
      */
     public static function getColumnName(string $column, ?string $as = null) : string
     {
-        $column = static::getTableName() . "." .  $column;
+        $column = static::getTableName() . '.' . $column;
 
         if ($as)
         {

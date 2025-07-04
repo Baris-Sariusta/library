@@ -1,27 +1,33 @@
 <?php
 
-//declare(strict_types=1);
+declare(strict_types=1);
+
+// declare(strict_types=1);
 
 namespace App\Traits;
 
 /** @untested */
-trait ApiResponses {
-    protected function ok($message, $data = []) : string {
+trait ApiResponses
+{
+    protected function ok($message, $data = []) : string
+    {
         return $this->success($message, $data, 200);
     }
 
-    protected function success($message, $data = [], $statusCode = 200) : string {
+    protected function success($message, $data = [], $statusCode = 200) : string
+    {
         return response()->json([
             'data' => $data,
             'message' => $message,
-            'status' => $statusCode
+            'status' => $statusCode,
         ], $statusCode);
     }
 
-    protected function error($message, $statusCode) : string {
+    protected function error($message, $statusCode) : string
+    {
         return response()->json([
             'message' => $message,
-            'status' => $statusCode
+            'status' => $statusCode,
         ], $statusCode);
     }
 }
