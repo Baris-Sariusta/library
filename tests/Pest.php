@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Illuminate\Database\Eloquent\Relations\Relation;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -43,7 +45,7 @@ expect()->extend('toBeOne', function ()
 |
 */
 
-function something()
+function relation(string $model, string $relation) : Relation
 {
-    // ..
+    return (new $model)->$relation();
 }

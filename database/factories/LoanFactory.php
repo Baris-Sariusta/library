@@ -28,4 +28,14 @@ final class LoanFactory extends Factory
             'status' => $this->faker->randomElement(['ongoing', 'returned', 'late']),
         ];
     }
+
+    /**
+     * Set a custom return_date, or use a random date if none given.
+     */
+    public function withReturnDate(?string $date = null) : self
+    {
+        return $this->state(fn () : array => [
+            'return_date' => $date ?? $this->faker->date(),
+        ]);
+    }
 }

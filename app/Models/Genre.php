@@ -8,7 +8,7 @@ use App\Contracts\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-/** @untested */
+/** @tested */
 final class Genre extends Model
 {
     /** @use HasFactory<\Database\Factories\GenreFactory> */

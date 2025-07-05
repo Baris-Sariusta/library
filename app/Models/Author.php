@@ -8,7 +8,7 @@ use App\Contracts\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/** @untested */
+/** @tested */
 final class Author extends Model
 {
     /** @use HasFactory<\Database\Factories\AuthorFactory> */
@@ -21,7 +21,9 @@ final class Author extends Model
      */
     protected $fillable = [
         'name',
+        'email',
         'bio',
+        'birth_date',
     ];
 
     /**
@@ -30,7 +32,7 @@ final class Author extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'published_at' => 'date',
+        'birth_date' => 'date',
     ];
 
     /**
