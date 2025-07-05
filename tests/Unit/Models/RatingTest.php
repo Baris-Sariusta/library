@@ -8,7 +8,7 @@ use Illuminate\Support\Carbon;
 
 it('should construct a Rating model', function () : void
 {
-    expect(Rating::factory()->create())
+    expect(Rating::factory()->withComment()->create()) // Force the optional 'comment' to always be present...
         ->toBeInstanceOf(Rating::class)
         ->id->toBeInt()
         ->user_id->toBeInt()

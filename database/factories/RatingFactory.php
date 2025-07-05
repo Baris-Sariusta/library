@@ -27,4 +27,14 @@ final class RatingFactory extends Factory
             'comment' => $this->faker->optional()->paragraph(),
         ];
     }
+
+    /**
+     * Set a custom comment, or use a random comment if none given.
+     */
+    public function withComment(?string $comment = null) : self
+    {
+        return $this->state(fn () : array => [
+            'comment' => $comment ?? $this->faker->paragraph(),
+        ]);
+    }
 }
