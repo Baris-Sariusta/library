@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers;
 
 use App\Contracts\ApiController;
-use App\Http\Requests\Api\V1\StoreBookRequest;
-use App\Http\Requests\Api\V1\UpdateBookRequest;
-use App\Http\Resources\V1\BookResource;
+use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
+use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 
 /** @untested */
 final class BookController extends ApiController
@@ -17,9 +18,18 @@ final class BookController extends ApiController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() : JsonResponse|BookResource
     {
-        //
+        try
+        {
+            $books = Book::with('author')->get();
+
+            return BookResource::collection($books);
+        }
+        catch (ModelNotFoundException $exception)
+        {
+            return $this->error($exception->getMessage(), 404);
+        }
     }
 
     /**
@@ -41,7 +51,7 @@ final class BookController extends ApiController
     /**
      * Display the specified resource.
      */
-    public function show(string|int $book_id) : BookResource|string
+    public function show(string|int $book_id) : JsonResponse|BookResource
     {
         try
         {
