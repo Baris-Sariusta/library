@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
-Artisan::command('inspire', function ()
+Artisan::command('pint', function () : void
 {
-    $this->comment(Inspiring::quote());
-})->purpose('Display an inspiring quote');
+    passthru('./vendor/bin/pint --ansi');
+})->purpose('Run pint');
