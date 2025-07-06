@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Enums;
+
 enum UserRole : int
 {
     case MEMBER = 1;
@@ -13,7 +15,7 @@ enum UserRole : int
      */
     public function description() : string
     {
-        return match($this)
+        return match ($this)
         {
             self::MEMBER => 'Member',
             self::LIBRARIAN => 'Library',
