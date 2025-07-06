@@ -23,7 +23,7 @@ final class BookController extends ApiController
     {
         try
         {
-            $books = Book::with('author')->paginate(25);
+            $books = Book::with('author')->paginate(5);
 
             return BookResource::collection($books);
         }
