@@ -11,6 +11,7 @@ use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 /** @untested */
 final class BookController extends ApiController
@@ -18,11 +19,11 @@ final class BookController extends ApiController
     /**
      * Display a listing of the resource.
      */
-    public function index() : JsonResponse|BookResource
+    public function index() : JsonResponse|BookResource|AnonymousResourceCollection
     {
         try
         {
-            $books = Book::with('author')->get();
+            $books = Book::with('author')->paginate(25);
 
             return BookResource::collection($books);
         }

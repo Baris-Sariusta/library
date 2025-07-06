@@ -23,24 +23,11 @@ final class BookResource extends JsonResource
             'attributes' => [
                 'title' => $this->title,
                 'description' => $this->description,
+                'average_rating' => $this->average_rating,
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at,
             ],
-            //            'relationships' => [
-            //                'author' => [
-            //                    'data' => [
-            //                        'type' => 'user',
-            //                        'id' => $this->user_id
-            //                    ],
-            //                    'links' => [
-            //                        'self' => route('authors.show', ['author' => $this->user_id])
-            //                    ]
-            //                ]
-            //            ],
-            //            'includes' => new UserResource($this->whenLoaded('author')),
-            //            'links' => [
-            //                'self' => route('tickets.show', ['ticket' => $this->id])
-            //            ]
+            //            'author' => new AuthorResource($this->whenLoaded('author')),
         ];
     }
 }
