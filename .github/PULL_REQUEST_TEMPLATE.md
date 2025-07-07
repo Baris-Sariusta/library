@@ -1,7 +1,7 @@
 ## ✅ Changes
-- [x] Feature
-- [x] Bugfix
-- [x] Refactor
+- [ ] Feature
+- [ ] Bugfix
+- [ ] Refactor
 
 ## 🤝 Related issues
 Fixes #...
