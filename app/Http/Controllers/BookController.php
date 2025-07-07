@@ -19,7 +19,7 @@ final class BookController extends ApiController
     /**
      * Display a listing of the resource.
      */
-    public function index() : JsonResponse|BookResource|AnonymousResourceCollection
+    public function index() : JsonResponse|AnonymousResourceCollection
     {
         try
         {
@@ -34,19 +34,18 @@ final class BookController extends ApiController
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreBookRequest $request)
     {
-        //
+        try
+        {
+            dd($request->user);
+        }
+        catch (ModelNotFoundException $exception)
+        {
+            return $this->error($exception->getMessage(), 404);
+        }
     }
 
     /**
