@@ -25,7 +25,15 @@ final class StoreBookRequest extends FormRequest
     public function rules() : array
     {
         return [
-            //
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'author_id' => ['required', 'exists:authors,id'],
+            'genre_id' => ['required', 'exists:genres,id'],
+            'published_at' => ['nullable', 'date'],
+            'language' => ['required', 'string', 'max:50'],
+            'price' => ['numeric', 'min:0'],
+            'publisher' => ['nullable', 'string', 'max:255'],
+            'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
         ];
     }
 }

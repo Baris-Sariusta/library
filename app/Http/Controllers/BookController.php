@@ -9,9 +9,11 @@ use App\Http\Requests\StoreBookRequest;
 use App\Http\Requests\UpdateBookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
+use App\Services\BookService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Validation\UnauthorizedException;
 
 /** @untested */
 final class BookController extends ApiController
@@ -29,22 +31,31 @@ final class BookController extends ApiController
         }
         catch (ModelNotFoundException $exception)
         {
-            return $this->error($exception->getMessage(), 404);
+            return $this->error(message: $exception->getMessage(), statusCode: 404);
         }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookRequest $request)
+    public function store(StoreBookRequest $request, BookService $bookService) : JsonResponse
     {
         try
         {
-            dd($request->user);
+            $book = $bookService->createBook(
+                data: $request->validated(), // Pass only the validated fields to the service to prevent unintended data...
+                user: $request->user()
+            );
+
+            return $this->ok(
+                message: 'Successfully added new book',
+                data: new BookResource($book),
+                statusCode: 201, // Status code should be 201, since a new resource is created...
+            );
         }
-        catch (ModelNotFoundException $exception)
+        catch (UnauthorizedException $exception)
         {
-            return $this->error($exception->getMessage(), 404);
+            return $this->error(message: $exception->getMessage(), statusCode: 403);
         }
     }
 
