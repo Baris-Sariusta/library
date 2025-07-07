@@ -22,9 +22,10 @@ final class AuthController extends ApiController
      */
     public function login(LoginUserRequest $request) : JsonResponse
     {
-        if (! Auth::attempt($request->only('email', 'password')))
+        // Check if login credentials are valid...
+        if (! Auth::attempt($request->only(keys: ['email', 'password'])))
         {
-            return $this->error('Invalid credentials', 401);
+            return $this->error(message: 'Invalid credentials', statusCode: 401);
         }
 
         $user = User::firstWhere('email', $request['email']);
@@ -32,7 +33,12 @@ final class AuthController extends ApiController
         return $this->ok(
             message: "Hello, {$user->username}",
             data: [
-                'token' => $user->createToken("API token for {$user['email']}")->plainTextToken,
+                'token' => $user
+                    ->createToken(
+                        name: "API token for {$user['email']}",
+                        expiresAt: now()->addMonth(), // The token should expire a month after it's given...
+                    )
+                    ->plainTextToken, // The plain text of the token...
             ],
         );
     }
@@ -44,6 +50,6 @@ final class AuthController extends ApiController
     {
         $request->user()->currentAccessToken()->delete();
 
-        return $this->ok();
+        return $this->ok(message: "Logged out {$request->user()->username}");
     }
 }

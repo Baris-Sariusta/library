@@ -20,7 +20,7 @@ trait ApiResponses
     /**
      * Customize the JSON response.
      */
-    protected function success(string $message = '', array $data = []) : JsonResponse
+    private function success(string $message = '', array $data = []) : JsonResponse
     {
         return response()->json([
             'data' => $data,
