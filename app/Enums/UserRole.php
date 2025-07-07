@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
-enum UserRole : int
+enum UserRole : string
 {
-    case MEMBER = 1;
-    case LIBRARIAN = 2;
-    case MANAGER = 3;
+    case MEMBER = 'member';
+    case LIBRARIAN = 'librarian';
+    case MANAGER = 'manager';
 
     /**
      * Get the description for the current user role.

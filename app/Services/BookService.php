@@ -10,6 +10,7 @@ use App\Models\Genre;
 use App\Models\User;
 use Illuminate\Validation\UnauthorizedException;
 
+/** @untested */
 final class BookService
 {
     /**
@@ -17,6 +18,7 @@ final class BookService
      */
     public function createBook(array $data, User $user) : Book
     {
+        // Verify that the user has the required role...
         $this->checkUserRole($user);
 
         // Query the Author and Genre so it can be
@@ -24,6 +26,7 @@ final class BookService
         $author = Author::findOrFail($data['author_id']);
         $genre = Genre::findOrFail($data['genre_id']);
 
+        // Create the new book with the provided attributes...
         return Book::create([
             'title' => $data['title'],
             'description' => $data['description'] ?? null,
@@ -43,9 +46,9 @@ final class BookService
      */
     private function checkUserRole(User $user) : void
     {
-        if (! $user->isLibrarian() ||
+        if (! ($user->isLibrarian() ||
             $user->isManager() ||
-            $user->isAdmin()
+            $user->isAdmin())
         ) {
             throw new UnauthorizedException('The user is not authorized to add a book');
         }
