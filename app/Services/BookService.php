@@ -21,23 +21,26 @@ final class BookService
         // Verify that the user has the required role...
         $this->checkUserRole($user);
 
-        // Query the Author and Genre so it can be
-        // linked with the new book...
+        // Query the Author so it can be linked
+        // with the new book...
         $author = Author::findOrFail($data['author_id']);
-        $genre = Genre::findOrFail($data['genre_id']);
 
         // Create the new book with the provided attributes...
-        return Book::create([
+        $book = Book::create([
             'title' => $data['title'],
             'description' => $data['description'] ?? null,
             'author_id' => $author->id,
-            'genre_id' => $genre->id,
             'published_at' => $data['published_at'] ?? null,
             'language' => $data['language'],
             'price' => $data['price'] ?? null,
             'publisher' => $data['publisher'] ?? null,
             'cover_image' => $data['cover_image'] ?? null,
         ]);
+
+        // Attach the associated genres, since these are in a pivot table...
+        $book->genres()->attach($data['genre_ids']);
+
+        return $book;
     }
 
     /**

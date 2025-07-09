@@ -25,10 +25,11 @@ final class StoreBookRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'title' => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:255', 'unique:books,title'],
             'description' => ['nullable', 'string'],
             'author_id' => ['required', 'exists:authors,id'],
-            'genre_id' => ['required', 'exists:genres,id'],
+            'genre_ids' => ['required', 'array'],
+            'genre_ids.*' => ['exists:genres,id'], // Check if the individual elements are present in the genres table...
             'published_at' => ['nullable', 'date'],
             'language' => ['required', 'string', 'max:50'],
             'price' => ['numeric', 'min:0'],

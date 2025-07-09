@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Contracts\ApiController;
+use App\Http\ApiResponses;
 use App\Http\Requests\loginUserRequest;
 use App\Models\User;
-use App\Traits\ApiResponses;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
