@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,5 +25,15 @@ final class AuthorFactory extends Factory
             'bio' => $this->faker->paragraph(),
             'birth_date' => $this->faker->date(),
         ];
+    }
+
+    /**
+     * Indicate the author name.
+     */
+    public function withName(string $name) : self
+    {
+        return $this->state(fn () : array  => [
+            'name' => $name,
+        ]);
     }
 }

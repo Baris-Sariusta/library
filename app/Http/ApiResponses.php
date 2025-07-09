@@ -26,7 +26,7 @@ trait ApiResponses
             'data' => $data,
             'message' => $message,
             'status' => $statusCode,
-        ]);
+        ], $statusCode);
     }
 
     /**

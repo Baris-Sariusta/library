@@ -31,4 +31,14 @@ final class GenreFactory extends Factory
             ]),
         ];
     }
+
+    /**
+     * Indicate the genre title.
+     */
+    public function withTitle(string $title) : self
+    {
+        return $this->state(fn () : array => [
+            'title' => $title,
+        ]);
+    }
 }

@@ -30,7 +30,7 @@ final class StoreBookRequest extends FormRequest
             'author_id' => ['required', 'exists:authors,id'],
             'genre_ids' => ['required', 'array'],
             'genre_ids.*' => ['exists:genres,id'], // Check if the individual elements are present in the genres table...
-            'published_at' => ['nullable', 'date'],
+            'published_at' => ['nullable', 'date', 'before_or_equal:today'],
             'language' => ['required', 'string', 'max:50'],
             'price' => ['numeric', 'min:0'],
             'publisher' => ['nullable', 'string', 'max:255'],
