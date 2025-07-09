@@ -81,6 +81,7 @@ it('forbids a user with the member role to add a book', function () : void
         ->asMember()
         ->create();
 
+    // Assert that a member can not add a book...
     actingAsUser($user)
         ->postJson(uri: '/api/books', data: $this->payload)
         ->assertForbidden();
