@@ -3,43 +3,33 @@
 declare(strict_types=1);
 
 use App\Enums\UserRole;
-use App\Models\Book;
-use App\Models\User;
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\Genre;
+use App\Models\User;
 use Illuminate\Http\UploadedFile;
 
-beforeEach(function () {
-    $author = Author::factory()
-        ->withName('foo')
-        ->create();
-
-    $genre = Genre::factory()
-        ->withTitle('foo')
-        ->create();
-
-    $date = now()->format('Y-m-d');
-    $img = UploadedFile::fake()->image('wop.jpg');
-
+beforeEach(function () : void
+{
     $this->payload = [
         'title' => 'foo',
         'description' => 'bar',
-        'author_id' => $author->id,
-        'genre_ids' => [$genre->id],
+        'author_id' => $author = Author::factory()->create()->id,
+        'genre_ids' => [Genre::factory()->create()->id], // Must be an array according to StoreBookRequest rules...
         'published_at' => $date = now()->format('Y-m-d'),
         'language' => 'baz',
         'price' => 29.99,
         'publisher' => 'fop',
-        'cover_image' => $img,
+        'cover_image' => $img = UploadedFile::fake()->image('wop.jpg'),
     ];
 
     $this->expectedData = fn () : array => [
         'title' => 'foo',
         'description' => 'bar',
-        'author_id' => $author->id,
+        'author_id' => $author,
         'published_at' => $date,
         'language' => 'baz',
-        'price' => '29.99', // let op string vs float in DB!
+        'price' => '29.99',
         'publisher' => 'fop',
         'cover_image' => $img,
     ];
@@ -53,7 +43,7 @@ test('that a librarian or manager can create a book in the database', function (
 
     // Create a new book by sending a post request as a user...
     actingAsUser($user)
-        ->post(uri: '/api/books', data: $this->payload)
+        ->postJson(uri: '/api/books', data: $this->payload)
         ->assertCreated();
 
     // Assert that the database has the newly created book...
@@ -62,19 +52,20 @@ test('that a librarian or manager can create a book in the database', function (
         data: ($this->expectedData)(),
     );
 })->with([
-    'user role' => [
+    'user roles' => [
         UserRole::LIBRARIAN,
         UserRole::MANAGER,
-    ]
+    ],
 ]);
 
-test('that an admin can create a book in the database', function (): void {
+test('that an admin can create a book in the database', function () : void
+{
     $user = User::factory()
         ->asAdmin()
         ->create();
 
     actingAsUser($user)
-        ->post('/api/books', $this->payload)
+        ->postJson('/api/books', $this->payload)
         ->assertCreated();
 
     // Assert that the database has the newly created book...
@@ -91,12 +82,30 @@ it('forbids a user with the member role to add a book', function () : void
         ->create();
 
     actingAsUser($user)
-        ->post(uri: '/api/books', data: $this->payload)
+        ->postJson(uri: '/api/books', data: $this->payload)
         ->assertForbidden();
 });
 
 it('prevents creating duplicate books', function () : void
 {
-    // ..
-});
+    $user = User::factory()
+        ->asLibrarian()
+        ->create();
 
+    // First post request should succeed...
+    actingAsUser($user)
+        ->post(uri: '/api/books', data: $this->payload)
+        ->assertCreated();
+
+    // Assert that the database has the data...
+    $this->assertDatabaseHas(table: Book::getTableName(), data: ($this->expectedData)());
+
+    // Second post request should fail...
+    actingAsUser($user)
+        ->postJson(uri: '/api/books', data: $this->payload)
+        ->assertStatus(422);
+
+    // Assert that the database only has one record...
+    expect(Book::query()->count())
+        ->toBeOne();
+});

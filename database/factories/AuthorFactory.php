@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -32,7 +31,7 @@ final class AuthorFactory extends Factory
      */
     public function withName(string $name) : self
     {
-        return $this->state(fn () : array  => [
+        return $this->state(fn () : array => [
             'name' => $name,
         ]);
     }

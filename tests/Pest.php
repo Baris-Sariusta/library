@@ -5,7 +5,6 @@ declare(strict_types=1);
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Testing\TestCase;
-use Illuminate\Testing\TestResponse;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,4 +56,3 @@ function actingAsUser(User $user) : TestCase
 {
     return test()->actingAs(user: $user, guard: 'sanctum');
 }
-

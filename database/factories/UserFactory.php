@@ -54,7 +54,7 @@ final class UserFactory extends Factory
      */
     public function withRole(UserRole $role) : self
     {
-        return $this->state(fn () : array  => [
+        return $this->state(fn () : array => [
             'role' => $role,
         ]);
     }
@@ -64,7 +64,7 @@ final class UserFactory extends Factory
      */
     public function asMember() : self
     {
-        return $this->state(fn () : array  => [
+        return $this->state(fn () : array => [
             'role' => UserRole::MEMBER,
         ]);
     }
@@ -74,7 +74,7 @@ final class UserFactory extends Factory
      */
     public function asLibrarian() : self
     {
-        return $this->state(fn () : array  => [
+        return $this->state(fn () : array => [
             'role' => UserRole::LIBRARIAN,
         ]);
     }
@@ -84,7 +84,7 @@ final class UserFactory extends Factory
      */
     public function asManager() : self
     {
-        return $this->state(fn () : array  => [
+        return $this->state(fn () : array => [
             'role' => UserRole::MANAGER,
         ]);
     }
