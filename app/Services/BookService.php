@@ -9,7 +9,7 @@ use App\Models\Book;
 use App\Models\User;
 use Illuminate\Validation\UnauthorizedException;
 
-/** @untested */
+/** @tested */
 final class BookService
 {
     /**

@@ -92,3 +92,15 @@ it('prevents creating duplicate books', function () : void
     expect(Book::query()->count())
         ->toBeOne();
 });
+
+it('validates missing required fields', function (array $invalidPayloads, string $expectedErrors)
+{
+    actingAsUser(role: UserRole::LIBRARIAN)
+        ->postJson(uri: '/api/books', data: $invalidPayloads)
+        ->assertStatus(422)
+        ->assertJsonValidationErrors($expectedErrors);
+})->with([
+    'missing title' => fn () : array => [collect($this->payload)->except('title')->toArray(), 'title'],
+    'missing author' => fn () : array => [collect($this->payload)->except('author_id')->toArray(), 'author_id'],
+    'missing genres' => fn () : array => [collect($this->payload)->except('genre_ids')->toArray(), 'genre_ids'],
+]);
