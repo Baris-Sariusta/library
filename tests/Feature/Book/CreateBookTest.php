@@ -6,7 +6,6 @@ use App\Enums\UserRole;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Genre;
-use App\Models\User;
 use Illuminate\Http\UploadedFile;
 
 beforeEach(function () : void
@@ -37,12 +36,8 @@ beforeEach(function () : void
 
 test('that a librarian or manager can create a book in the database', function (UserRole $role) : void
 {
-    $user = User::factory()
-        ->withRole($role)
-        ->create();
-
     // Create a new book by sending a post request as a user...
-    actingAsUser($user)
+    actingAsUser(role: $role)
         ->postJson(uri: '/api/books', data: $this->payload)
         ->assertCreated();
 
@@ -60,11 +55,7 @@ test('that a librarian or manager can create a book in the database', function (
 
 test('that an admin can create a book in the database', function () : void
 {
-    $user = User::factory()
-        ->asAdmin()
-        ->create();
-
-    actingAsUser($user)
+    actingAsAdmin()
         ->postJson('/api/books', $this->payload)
         ->assertCreated();
 
@@ -77,24 +68,15 @@ test('that an admin can create a book in the database', function () : void
 
 it('forbids a user with the member role to add a book', function () : void
 {
-    $user = User::factory()
-        ->asMember()
-        ->create();
-
-    // Assert that a member can not add a book...
-    actingAsUser($user)
+    actingAsUser(role: UserRole::MEMBER)
         ->postJson(uri: '/api/books', data: $this->payload)
         ->assertForbidden();
 });
 
 it('prevents creating duplicate books', function () : void
 {
-    $user = User::factory()
-        ->asLibrarian()
-        ->create();
-
     // First post request should succeed...
-    actingAsUser($user)
+    actingAsUser(role: UserRole::LIBRARIAN)
         ->post(uri: '/api/books', data: $this->payload)
         ->assertCreated();
 
@@ -102,7 +84,7 @@ it('prevents creating duplicate books', function () : void
     $this->assertDatabaseHas(table: Book::getTableName(), data: ($this->expectedData)());
 
     // Second post request should fail...
-    actingAsUser($user)
+    actingAsUser(role: UserRole::LIBRARIAN)
         ->postJson(uri: '/api/books', data: $this->payload)
         ->assertStatus(422);
 

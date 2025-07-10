@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Testing\TestCase;
@@ -52,7 +53,20 @@ function relation(string $model, string $relation) : Relation
     return (new $model)->$relation();
 }
 
-function actingAsUser(User $user) : TestCase
+function actingAsUser(?UserRole $role = null) : TestCase
 {
-    return test()->actingAs(user: $user, guard: 'sanctum');
+    return test()->actingAs(
+        user: User::factory()
+            ->withRole($role ?? UserRole::MEMBER)
+            ->create(),
+        guard: 'sanctum',
+    );
+}
+
+function actingAsAdmin() : TestCase
+{
+    return test()->actingAs(
+        user: User::factory()->asAdmin()->create(),
+        guard: 'sanctum',
+    );
 }
