@@ -68,4 +68,15 @@ final class User extends Authenticatable
     {
         return $this->hasMany(Loan::class);
     }
+
+    /**
+     * Generate the api token so the user can be logged in.
+     */
+    public function generateApiToken() : string
+    {
+        return $this->createToken(
+            name: "API token for {$this->email}",
+            expiresAt: now()->addMonth(), // The token should expire a month after it's given...
+        )->plainTextToken; // The plain text of the token...
+    }
 }
