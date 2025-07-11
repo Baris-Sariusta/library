@@ -13,7 +13,7 @@ beforeEach(function () : void
     $this->payload = [
         'title' => 'foo',
         'description' => 'bar',
-        'author_id' => $author = Author::factory()->create()->id,
+        'author_id' => $author_id = Author::factory()->create()->id,
         'genre_ids' => [Genre::factory()->create()->id], // Must be an array according to StoreBookRequest rules...
         'published_at' => $date = now()->format('Y-m-d'),
         'language' => 'baz',
@@ -25,7 +25,7 @@ beforeEach(function () : void
     $this->expectedData = fn () : array => [
         'title' => 'foo',
         'description' => 'bar',
-        'author_id' => $author,
+        'author_id' => $author_id,
         'published_at' => $date,
         'language' => 'baz',
         'price' => '29.99',
