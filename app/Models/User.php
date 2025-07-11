@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Enums\UserRole;
+use App\Models\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -19,6 +20,7 @@ final class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
 
+    use HasRoles;
     use Notifiable;
 
     /**
@@ -70,22 +72,6 @@ final class User extends Authenticatable
     public function loans() : HasMany
     {
         return $this->hasMany(Loan::class);
-    }
-
-    /**
-     * Determine if the user role is 'librarian'.
-     */
-    public function isLibrarian() : bool
-    {
-        return $this->role === UserRole::LIBRARIAN;
-    }
-
-    /**
-     * Determine if the user role is 'manager'.
-     */
-    public function isManager() : bool
-    {
-        return $this->role === UserRole::MANAGER;
     }
 
     /**
