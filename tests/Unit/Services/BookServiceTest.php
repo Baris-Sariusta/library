@@ -15,11 +15,16 @@ beforeEach(function () : void
 {
     $bookService = app(BookService::class);
 
+    $this->genre_ids = Genre::factory(count: 2)
+        ->create()
+        ->pluck('id')
+        ->toArray();
+
     $this->book = $bookService->createBook(
         data: [
             'title' => 'foo',
             'author_id' => $this->author_id = Author::factory()->create()->id,
-            'genre_ids' => $this->genre_ids = [Genre::factory()->create()->id],
+            'genre_ids' => $this->genre_ids,
             'language' => 'bar',
         ],
         user: User::factory()->withRole(UserRole::LIBRARIAN)->create()
