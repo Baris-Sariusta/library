@@ -7,10 +7,9 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Bariss61/library/actions"><img alt="Tests" src="https://github.com/Bariss61/library/actions/workflows/run-tests.yml/badge.svg"></a>
-  <a href="https://github.com/Bariss61/library"><img alt="PHP version" src="https://img.shields.io/badge/PHP-^8.2-blue.svg"></a>
-  <a href="https://github.com/Bariss61/library"><img alt="Laravel" src="https://img.shields.io/badge/Laravel-12-red"></a>
-  <a href="https://github.com/Bariss61/library/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/github/license/your-username/your-repo"></a>
+  <a href="https://pestphp.com"><img alt="Pest" src="https://img.shields.io/badge/Pest-^3-brightgreen"></a>
+  <a href="https://www.php.net/"><img alt="PHP version" src="https://img.shields.io/badge/PHP-^8.2-blue.svg"></a>
+  <a href="https://laravel.com/"><img alt="Laravel" src="https://img.shields.io/badge/Laravel-^12-red"></a>
 </p>
 
 ---
