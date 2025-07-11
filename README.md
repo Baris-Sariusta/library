@@ -44,3 +44,11 @@ php artisan key:generate # Generate app encryption key
 php artisan migrate --seed
 php artisan serve
 ```
+---
+
+## 🗺️ Database Design
+
+Below is an overview of the current database schema:
+
+<img height="500" src="https://raw.githubusercontent.com/Bariss61/library/refs/heads/feature/add-readme/assets/db-design.png?token=GHSAT0AAAAAADGT3BLGW43U5R75LQVBSAVY2DRSFMA" alt="Database schema" />
+
