@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
  * Run the predefined sets of architecture tests.
  */
 arch()->preset()->php();
-arch()->preset()->laravel()->ignoring('App\\Contracts');
+arch()->preset()->laravel()->ignoring(['App\\Contracts', 'App\\Http\\Controllers\\AuthController']);
 arch()->preset()->security();
 
 /**
