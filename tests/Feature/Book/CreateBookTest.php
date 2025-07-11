@@ -103,4 +103,5 @@ it('validates missing required fields', function (array $invalidPayloads, string
     'missing title' => fn () : array => [collect($this->payload)->except('title')->toArray(), 'title'],
     'missing author' => fn () : array => [collect($this->payload)->except('author_id')->toArray(), 'author_id'],
     'missing genres' => fn () : array => [collect($this->payload)->except('genre_ids')->toArray(), 'genre_ids'],
+    'missing price' => fn () : array => [collect($this->payload)->except('price')->toArray(), 'price'],
 ]);

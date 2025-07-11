@@ -32,7 +32,7 @@ final class StoreBookRequest extends FormRequest
             'genre_ids.*' => ['exists:genres,id'], // Check if the individual elements are present in the genres table...
             'published_at' => ['nullable', 'date', 'before_or_equal:today'],
             'language' => ['required', 'string', 'max:50'],
-            'price' => ['numeric', 'min:0'],
+            'price' => ['required', 'numeric', 'min:0'],
             'publisher' => ['nullable', 'string', 'max:255'],
             'cover_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,svg', 'max:2048'],
         ];
