@@ -20,7 +20,7 @@ I started this project to improve my Laravel skills. My goal is to explore all p
 and become a better developer by learning from my mistakes along the way.
 
 In this project I try to implement as many best practices as possible, focusing on clean code, separation of concerns, and maintainability. 
-As a junior developer, I still have a lot to learn, and this project is a great way for me to grow and challenge myself in a practical way.
+As a junior developer I still have a lot to learn, and this project is a great way for me to grow and challenge myself in a practical way.
 
 ---
 
