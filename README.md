@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="200px" src="https://raw.githubusercontent.com/Bariss61/library/refs/heads/feature/add-readme/assets/banner-library.png?token=GHSAT0AAAAAADGT3BLG6EKH7IE4JAC4EF3C2DRQJMQ" alt="Library App Banner">
+  <img height="150px" src="https://raw.githubusercontent.com/Bariss61/library/refs/heads/feature/add-readme/assets/banner-library.png?token=GHSAT0AAAAAADGT3BLG6EKH7IE4JAC4EF3C2DRQJMQ" alt="Library App Banner">
 </p>
 
 <p align="center">
