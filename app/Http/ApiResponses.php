@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Traits;
+namespace App\Http;
 
 use Illuminate\Http\JsonResponse;
 
@@ -12,21 +12,21 @@ trait ApiResponses
     /**
      * Return a successful JSON response.
      */
-    protected function ok(?string $message = '', array $data = []) : JsonResponse
+    protected function ok(?string $message = '', mixed $data = [], int $statusCode = 200) : JsonResponse
     {
-        return $this->success($message, $data);
+        return $this->success($message, $data, $statusCode);
     }
 
     /**
      * Customize the JSON response.
      */
-    private function success(string $message = '', array $data = []) : JsonResponse
+    private function success(string $message = '', mixed $data = [], int $statusCode = 200) : JsonResponse
     {
         return response()->json([
             'data' => $data,
             'message' => $message,
-            'status' => 200,
-        ]);
+            'status' => $statusCode,
+        ], $statusCode);
     }
 
     /**

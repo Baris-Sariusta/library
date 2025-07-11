@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
@@ -15,7 +16,7 @@ it('should construct a User model', function () : void
         ->first_name->toBeString()
         ->last_name->toBeString()
         ->email->toBeString()
-        ->role->toBeString()
+        ->role->toBeInstanceOf(UserRole::class)
         ->admin->toBeBool()
         ->updated_at->toBeInstanceOf(Carbon::class)
         ->created_at->toBeInstanceOf(Carbon::class);

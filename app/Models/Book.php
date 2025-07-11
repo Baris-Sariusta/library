@@ -23,9 +23,14 @@ final class Book extends Model
      */
     protected $fillable = [
         'title',
-        'published_at',
         'description',
-        'genre',
+        'author_id',
+        'genre_id',
+        'published_at',
+        'language',
+        'price',
+        'publisher',
+        'cover_image',
     ];
 
     /**

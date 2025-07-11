@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -45,6 +46,56 @@ final class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Indicate that what the user role is.
+     */
+    public function withRole(UserRole $role) : self
+    {
+        return $this->state(fn () : array => [
+            'role' => $role,
+        ]);
+    }
+
+    /**
+     * Indicate that the user role is 'member'.
+     */
+    public function asMember() : self
+    {
+        return $this->state(fn () : array => [
+            'role' => UserRole::MEMBER,
+        ]);
+    }
+
+    /**
+     * Indicate that the user role is 'librarian'.
+     */
+    public function asLibrarian() : self
+    {
+        return $this->state(fn () : array => [
+            'role' => UserRole::LIBRARIAN,
+        ]);
+    }
+
+    /**
+     * Indicate that the user role is 'manager'.
+     */
+    public function asManager() : self
+    {
+        return $this->state(fn () : array => [
+            'role' => UserRole::MANAGER,
+        ]);
+    }
+
+    /**
+     * Indicate that the User is an admin.
+     */
+    public function asAdmin() : self
+    {
+        return $this->state(fn () : array => [
+            'admin' => true,
         ]);
     }
 }
