@@ -93,7 +93,7 @@ it('prevents creating duplicate books', function () : void
         ->toBeOne();
 });
 
-it('validates missing required fields', function (array $invalidPayloads, string $expectedErrors)
+it('validates missing required fields', function (array $invalidPayloads, string $expectedErrors) : void
 {
     actingAsUser(role: UserRole::LIBRARIAN)
         ->postJson(uri: '/api/books', data: $invalidPayloads)

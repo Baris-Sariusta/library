@@ -5,7 +5,7 @@ declare(strict_types=1);
 use App\Enums\UserRole;
 use App\Models\User;
 
-it('can determine the member role', function ()
+it('can determine the member role', function () : void
 {
     $user = User::factory()->withRole(UserRole::MEMBER)->create();
 
@@ -14,7 +14,7 @@ it('can determine the member role', function ()
     expect($user->isManager())->toBeFalse();
 });
 
-it('can determine the librarian role', function ()
+it('can determine the librarian role', function () : void
 {
     $user = User::factory()->withRole(UserRole::LIBRARIAN)->create();
 
@@ -23,7 +23,7 @@ it('can determine the librarian role', function ()
     expect($user->isManager())->toBeFalse();
 });
 
-it('can determine the manager role', function ()
+it('can determine the manager role', function () : void
 {
     $user = User::factory()->withRole(UserRole::MANAGER)->create();
 
