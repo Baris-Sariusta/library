@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="150px" src="https://raw.githubusercontent.com/Bariss61/library/refs/heads/feature/add-readme/assets/banner-library.png?token=GHSAT0AAAAAADGT3BLG6EKH7IE4JAC4EF3C2DRQJMQ" alt="Library App Banner">
+  <img height="150px" src="https://raw.githubusercontent.com/Bariss61/library/refs/heads/main/assets/banner-library.png?token=GHSAT0AAAAAADGT3BLH42I3QJMBUKFZ26EY2DRSNJA" alt="Library App Banner">
 </p>
 
 <p align="center">
@@ -50,5 +50,5 @@ php artisan serve
 
 Below is an overview of the current database schema:
 
-<img height="500" src="https://raw.githubusercontent.com/Bariss61/library/refs/heads/feature/add-readme/assets/db-design.png?token=GHSAT0AAAAAADGT3BLGW43U5R75LQVBSAVY2DRSFMA" alt="Database schema" />
+<img height="500" src="https://raw.githubusercontent.com/Bariss61/library/refs/heads/main/assets/db-design.png?token=GHSAT0AAAAAADGT3BLHOMB3EWDRGKXX3JKE2DRSNLA" alt="Database schema" />
 
