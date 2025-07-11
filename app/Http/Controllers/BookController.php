@@ -15,7 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Validation\UnauthorizedException;
 
-/** @untested */
+/** @untested-ignore */
 final class BookController extends ApiController
 {
     /**

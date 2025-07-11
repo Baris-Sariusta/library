@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-/** @untested */
+/** @untested-ignore */
 final class AuthController extends ApiController
 {
     use ApiResponses;
