@@ -70,7 +70,7 @@ final class BookController extends ApiController
     {
         try
         {
-            $book = Book::with(['genres', 'author'])->findOrFail($book_id);
+            $book = Book::with(['author', 'genres'])->findOrFail($book_id);
 
             return $this->ok(
                 message: 'Successfully retrieved book',
