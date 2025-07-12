@@ -23,7 +23,12 @@ final class BookResource extends JsonResource
             'attributes' => [
                 'title' => $this->title,
                 'description' => $this->description,
+                'published_at' => $this->published_at,
+                'language' => $this->language,
+                'price' => $this->price,
+                'publisher' => $this->publisher,
                 'average_rating' => $this->average_rating,
+                'cover_image' => $this->cover_image,
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at,
                 'author' => new AuthorResource($this->whenLoaded('author')),
