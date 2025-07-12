@@ -6,7 +6,7 @@ namespace App\Policies;
 
 use App\Models\User;
 
-/** @untested */
+/** @untested-ignore */
 final class BookPolicy
 {
     /**
