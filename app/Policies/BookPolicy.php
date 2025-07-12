@@ -10,14 +10,6 @@ use App\Models\User;
 final class BookPolicy
 {
     /**
-     * Create a new policy instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Determine whether the user can create a book.
      */
     public function create(User $user) : bool
