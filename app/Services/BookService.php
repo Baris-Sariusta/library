@@ -7,7 +7,6 @@ namespace App\Services;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\User;
-use Illuminate\Validation\UnauthorizedException;
 
 /** @tested */
 final class BookService
@@ -15,11 +14,8 @@ final class BookService
     /**
      * Create a new book with the provided data and user.
      */
-    public function createBook(array $data, User $user) : Book
+    public function createBook(array $data) : Book
     {
-        // Verify that the user has the required role...
-        $this->checkUserRole($user);
-
         // Query the Author so it can be linked
         // with the new book...
         $author = Author::findOrFail($data['author_id']);
@@ -40,19 +36,5 @@ final class BookService
         $book->genres()->attach($data['genre_ids']);
 
         return $book;
-    }
-
-    /**
-     * Verify that the user is an admin or has
-     * the 'librarian' or 'manager' role.
-     */
-    private function checkUserRole(User $user) : void
-    {
-        if (! ($user->isLibrarian() ||
-            $user->isManager() ||
-            $user->isAdmin())
-        ) {
-            throw new UnauthorizedException('The user is not authorized to add a book');
-        }
     }
 }

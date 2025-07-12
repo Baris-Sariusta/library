@@ -2,14 +2,11 @@
 
 declare(strict_types=1);
 
-use App\Enums\UserRole;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Genre;
-use App\Models\User;
 use App\Services\BookService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Validation\UnauthorizedException;
 
 beforeEach(function () : void
 {
@@ -26,9 +23,7 @@ beforeEach(function () : void
             'author_id' => $this->author_id = Author::factory()->create()->id,
             'genre_ids' => $this->genre_ids,
             'language' => 'bar',
-        ],
-        user: User::factory()->withRole(UserRole::LIBRARIAN)->create()
-    );
+        ]);
 });
 
 it('creates a book without optional fields and sets defaults to null', function () : void
@@ -65,21 +60,6 @@ it('attaches correct genres to the book', function () : void
     ]);
 });
 
-it('throws UnauthorizedException when user has no valid role', function () : void
-{
-    $bookService = app(BookService::class);
-
-    $bookService->createBook(
-        data: [
-            'title' => 'foo',
-            'author_id' => Author::factory()->create()->id,
-            'genre_ids' => [Genre::factory()->create()->id],
-            'language' => 'bar',
-        ],
-        user: User::factory()->withRole(UserRole::MEMBER)->create(),
-    );
-})->throws(UnauthorizedException::class, 'The user is not authorized to add a book');
-
 it('throws ModelNotFoundException when author does not exist', function () : void
 {
     $bookService = app(BookService::class);
@@ -90,7 +70,5 @@ it('throws ModelNotFoundException when author does not exist', function () : voi
             'author_id' => 9999, // non-existing author id...
             'genre_ids' => [Genre::factory()->create()->id],
             'language' => 'bar',
-        ],
-        user: User::factory()->withRole(UserRole::LIBRARIAN)->create()
-    );
+        ]);
 })->throws(ModelNotFoundException::class);

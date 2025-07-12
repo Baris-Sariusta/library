@@ -10,10 +10,10 @@ use App\Http\Requests\UpdateBookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Services\BookService;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Validation\UnauthorizedException;
 
 /** @untested-ignore */
 final class BookController extends ApiController
@@ -42,9 +42,10 @@ final class BookController extends ApiController
     {
         try
         {
+            $this->authorize('create', Book::class);
+
             $book = $bookService->createBook(
-                data: $request->validated(), // Pass only the validated fields to the service to prevent unintended data...
-                user: $request->user()
+                data: $request->validated(), // Pass only the validated fields to the service...
             );
 
             return $this->ok(
@@ -53,7 +54,7 @@ final class BookController extends ApiController
                 statusCode: 201, // Status code should be 201, since a new resource is created...
             );
         }
-        catch (UnauthorizedException $exception)
+        catch (AuthorizationException $exception)
         {
             return $this->error(message: $exception->getMessage(), statusCode: 403);
         }
