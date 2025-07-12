@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /** @untested-ignore */
-final class BookResource extends JsonResource
+final class GenreResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,16 +18,10 @@ final class BookResource extends JsonResource
     public function toArray(Request $request) : array
     {
         return [
-            'type' => 'book',
+            'type' => 'genre',
             'id' => $this->id,
             'attributes' => [
                 'title' => $this->title,
-                'description' => $this->description,
-                'average_rating' => $this->average_rating,
-                'createdAt' => $this->created_at,
-                'updatedAt' => $this->updated_at,
-                'author' => new AuthorResource($this->whenLoaded('author')),
-                'genres' => GenreResource::collection($this->whenLoaded('genres')),
             ],
         ];
     }

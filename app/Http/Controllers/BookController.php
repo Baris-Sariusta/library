@@ -24,7 +24,7 @@ final class BookController extends ApiController
     {
         try
         {
-            $books = Book::with('author')->paginate(5);
+            $books = Book::with(['author', 'genres'])->paginate(5);
 
             return $this->ok(
                 message: 'Successfully retrieved books',
@@ -70,7 +70,7 @@ final class BookController extends ApiController
     {
         try
         {
-            $book = Book::with('genres')->findOrFail($book_id);
+            $book = Book::with(['genres', 'author'])->findOrFail($book_id);
 
             return $this->ok(
                 message: 'Successfully retrieved book',
