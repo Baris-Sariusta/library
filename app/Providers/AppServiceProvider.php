@@ -7,7 +7,7 @@ namespace App\Providers;
 use App\Contracts\Model;
 use Illuminate\Support\ServiceProvider;
 
-/** @untested */
+/** @untested-ignore */
 final class AppServiceProvider extends ServiceProvider
 {
     /**

@@ -8,7 +8,7 @@ use App\Models\Book;
 use App\Policies\BookPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
-/** @untested */
+/** @untested-ignore */
 final class AuthServiceProvider extends ServiceProvider
 {
     /**
