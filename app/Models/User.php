@@ -45,18 +45,16 @@ final class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, class-string|string>
      */
-    protected function casts() : array
-    {
-        return [
-            'role' => UserRole::class,
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'role' => UserRole::class,
+        'admin' => 'boolean',
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 
     /**
      * Get the ratings for the user.

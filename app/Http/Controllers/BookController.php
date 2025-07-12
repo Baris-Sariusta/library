@@ -13,7 +13,6 @@ use App\Services\BookService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 /** @untested-ignore */
 final class BookController extends ApiController
@@ -45,6 +44,7 @@ final class BookController extends ApiController
     {
         try
         {
+            // Check if the user has permission to create a book...
             $this->authorize('create', Book::class);
 
             $book = $bookService->createBook(
