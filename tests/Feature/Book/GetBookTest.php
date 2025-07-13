@@ -65,7 +65,6 @@ it('can retrieve a single book with its author and genres', function () : void
         'language' => 'baz',
         'price' => 10.00,
         'publisher' => 'bax',
-        'cover_image' => 'fop',
     ]);
 });
 
@@ -106,7 +105,6 @@ it('can retrieve a list of books with its author and genres', function () : void
         'language' => 'baz',
         'price' => 10.00,
         'publisher' => 'bax',
-        'cover_image' => 'fop',
     ]);
 
     expect($books[1]['attributes'])->toMatchArray([
@@ -135,6 +133,5 @@ it('can retrieve a list of books with its author and genres', function () : void
         'language' => 'baz',
         'price' => 20.00,
         'publisher' => 'bax',
-        'cover_image' => 'fop',
     ]);
 });

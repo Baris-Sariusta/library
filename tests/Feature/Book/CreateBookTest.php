@@ -6,7 +6,6 @@ use App\Enums\UserRole;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Genre;
-use Illuminate\Http\UploadedFile;
 
 beforeEach(function () : void
 {
@@ -19,7 +18,6 @@ beforeEach(function () : void
         'language' => 'baz',
         'price' => 29.99,
         'publisher' => 'fop',
-        'cover_image' => $img = UploadedFile::fake()->image('wop.jpg'),
     ];
 
     $this->expectedData = fn () : array => [
@@ -30,7 +28,6 @@ beforeEach(function () : void
         'language' => 'baz',
         'price' => '29.99',
         'publisher' => 'fop',
-        'cover_image' => $img,
     ];
 });
 

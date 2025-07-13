@@ -28,7 +28,6 @@ final class BookResource extends JsonResource
                 'price' => $this->price,
                 'publisher' => $this->publisher,
                 'average_rating' => $this->average_rating,
-                'cover_image' => $this->cover_image,
                 'createdAt' => $this->created_at,
                 'updatedAt' => $this->updated_at,
                 'author' => new AuthorResource($this->whenLoaded('author')),
