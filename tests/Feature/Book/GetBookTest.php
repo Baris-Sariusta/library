@@ -13,7 +13,8 @@ beforeEach(function () : void
     $this->author = Author::factory()
         ->withName('bar')
         ->create([
-            'bio' => 'baz', 'birth_date' => '2000-01-01',
+            'bio' => 'baz',
+            'birth_date' => '2000-01-01',
         ]);
 
     // Generate books with placeholder data, each linked to the same author and genre...
@@ -79,6 +80,7 @@ it('can retrieve a list of books with its author and genres', function () : void
 
     expect($books)->toHaveCount(2);
 
+    // Assert that the first book matches the attributes...
     expect($books[0]['attributes'])->toMatchArray([
         'title' => 'foo',
         'description' => 'bar',
@@ -107,6 +109,7 @@ it('can retrieve a list of books with its author and genres', function () : void
         'publisher' => 'bax',
     ]);
 
+    // Assert that the second book matches the attributes...
     expect($books[1]['attributes'])->toMatchArray([
         'title' => 'baz',
         'description' => 'bax',
