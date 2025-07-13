@@ -46,12 +46,10 @@ test('that a librarian or manager can create a book in the database', function (
         table: Book::getTableName(),
         data: ($this->expectedData)(),
     );
-})->with([
-    'user roles' => [
-        UserRole::LIBRARIAN,
-        UserRole::MANAGER,
-    ],
-]);
+})->with([[
+    UserRole::LIBRARIAN,
+    UserRole::MANAGER,
+]]);
 
 test('that an admin can create a book in the database', function () : void
 {
