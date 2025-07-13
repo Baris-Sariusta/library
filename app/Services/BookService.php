@@ -29,7 +29,6 @@ final class BookService
             'language' => $data['language'],
             'price' => $data['price'] ?? null,
             'publisher' => $data['publisher'] ?? null,
-            'cover_image' => $data['cover_image'] ?? null,
         ]);
 
         // Attach the associated genres, since these are in a pivot table...

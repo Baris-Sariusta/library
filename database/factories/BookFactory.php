@@ -31,4 +31,21 @@ final class BookFactory extends Factory
             'cover_image' => $this->faker->imageUrl(),
         ];
     }
+
+    /**
+     * Define fixed values for scenarios where this is needed.
+     */
+    public function withStaticValues() : self
+    {
+        return $this->state(fn () : array => [
+            'title' => 'foo',
+            'description' => 'bar',
+            'average_rating' => 5,
+            'published_at' => '2025-01-01',
+            'language' => 'baz',
+            'price' => 10.00,
+            'publisher' => 'bax',
+            'cover_image' => 'fop',
+        ]);
+    }
 }
