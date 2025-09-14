@@ -8,9 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Run Laravel Pint
     timeout-minutes: 5
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the changed files back to the repository.
-      contents: write
 
     steps:
       - name: Checkout Code
