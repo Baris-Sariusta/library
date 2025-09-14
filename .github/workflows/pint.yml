@@ -1,0 +1,35 @@
+name: Run Laravel Pint
+
+on:
+  pull_request
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+    name: Run Laravel Pint
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+
+      - name: Setup PHP and Composer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction --no-scripts
+
+      - name: Run Pint
+        run: ./vendor/bin/pint --test
+
+      - name: Commit Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Laravel Pint
+          skip_fetch: true
