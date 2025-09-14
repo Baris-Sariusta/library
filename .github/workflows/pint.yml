@@ -28,8 +28,10 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-scripts
 
-      - name: Run Pint
-        run: ./vendor/bin/pint
+      - name: Run Laravel Pint
+        run: aglipanci/laravel-pint-action@2.4
+        with:
+          configPath: pint.json
 
       - name: Commit Changes
         uses: stefanzweifel/git-auto-commit-action@v6
