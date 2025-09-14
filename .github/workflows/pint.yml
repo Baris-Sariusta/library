@@ -1,7 +1,12 @@
 name: Run Laravel Pint
 
 on:
-  pull_request
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
 
 jobs:
   pint:
@@ -10,27 +15,26 @@ jobs:
     timeout-minutes: 5
 
     steps:
-      - name: Checkout Code
+      - name: Checkout Code 🔎
         uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
 
-
-      - name: Setup PHP and Composer
+      - name: Setup PHP and Composer ⚙️
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
           tools: composer:v2
 
-      - name: Install dependencies
+      - name: Install dependencies 📦
         run: composer install --prefer-dist --no-interaction --no-scripts
 
-      - name: Run Laravel Pint
+      - name: Run Laravel Pint 🔧
         uses: aglipanci/laravel-pint-action@2.4
         with:
           configPath: pint.json
 
-      - name: Commit Changes
+      - name: Commit Changes 🚀
         uses: stefanzweifel/git-auto-commit-action@v6
         with:
           commit_message: Laravel Pint
