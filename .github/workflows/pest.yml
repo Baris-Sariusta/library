@@ -1,4 +1,4 @@
-name: Run Laravel Pint
+name: Run Pest tests
 
 on:
   push:
@@ -12,10 +12,10 @@ on:
       - ready_for_review
 
 jobs:
-  pint:
+  tests:
     runs-on: ubuntu-latest
-    name: Run Laravel Pint
-    timeout-minutes: 5
+    name: Run Pest tests
+    if: github.event.pull_request.draft == false
 
     steps:
       - name: Checkout Code 🔎
