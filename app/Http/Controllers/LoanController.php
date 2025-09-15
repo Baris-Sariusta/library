@@ -1,21 +1,40 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Contracts\ApiController;
 use App\Http\Requests\BorrowLoanRequest;
-use App\Http\Requests\ReturnLoanRequest;
-use App\Models\Loan;
+use App\Models\Book;
+use App\Services\LoanService;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
-class LoanController extends ApiController
+final class LoanController extends ApiController
 {
     /**
      * Borrow a book.
      */
-    public function borrow(BorrowLoanRequest $request, $bookId)
+    public function borrow(BorrowLoanRequest $request, Book $book, LoanService $loanService)
     {
-        //
+        try
+        {
+            $loanService->borrowBook(
+                book: $book,
+                user: auth()->user(),
+            );
+
+            return $this->ok(
+                message: 'Book successfully borrowed',
+                data: new LoanResource($loan),
+                statusCode: 201,
+            );
+        }
+        catch (ModelNotFoundException $exception)
+        {
+            return $this->error('Book not found', 404);
+        }
     }
 
     /**

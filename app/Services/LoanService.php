@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Author;
 use App\Models\Book;
 use App\Models\User;
 
@@ -14,24 +13,25 @@ final class LoanService
     /**
      * Borrow a book for a user.
      */
-    public function borrowBook(array $data) : Book
+    public function borrowBook(Book $book, User $user) : Book
     {
-        // check of het boek al is uitgeleend
+        // Check if the book is available...
         $alreadyBorrowed = $book->loans()
             ->whereNull('return_date')
             ->exists();
 
-        if ($alreadyBorrowed) {
+        if ($alreadyBorrowed)
+        {
             throw ValidationException::withMessages([
                 'book' => 'Dit boek is al uitgeleend.',
             ]);
         }
 
-        // maak nieuwe loan aan
+        // add new loan...
         return $book->loans()->create([
-            'user_id'   => $user->id,
+            'user_id' => $user->id,
             'loan_date' => now(),
-            'status'    => 'borrowed',
+            'status' => 'borrowed',
         ]);
     }
 }
