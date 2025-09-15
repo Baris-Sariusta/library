@@ -56,3 +56,6 @@ jobs:
 
       - name: Run Pest
         run: ./vendor/bin/pest
+
+
+  mbstring, pdo, pdo_mysql

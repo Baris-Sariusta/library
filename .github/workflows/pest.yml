@@ -17,6 +17,16 @@ jobs:
     name: Run Pest tests
     if: github.event.pull_request.draft == false
 
+    services:
+      mysql:
+        image: mysql:8.0
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: library_tests
+          MYSQL_USER: root
+          MYSQL_PASSWORD: root
+
     steps:
       - name: Checkout Code 🔎
         uses: actions/checkout@v4
@@ -26,18 +36,25 @@ jobs:
       - name: Setup PHP and Composer ⚙️
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
           tools: composer:v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v4.0.2
+        with:
+          path: vendor/
+          key: composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: composer-cache-
 
       - name: Install dependencies 📦
         run: composer install --prefer-dist --no-interaction --no-scripts
 
-      - name: Run Laravel Pint 🔧
-        uses: aglipanci/laravel-pint-action@2.4
-        with:
-          configPath: pint.json
+      - name: Copy .env
+        run: cp .env.example .env
 
-      - name: Commit Changes 🚀
-        uses: stefanzweifel/git-auto-commit-action@v6
-        with:
-          commit_message: Laravel Pint
+      - name: Generate app key
+        run: php artisan key:generate
+
+      - name: Run migrations
+        run: php artisan migrate --env=testing --force
