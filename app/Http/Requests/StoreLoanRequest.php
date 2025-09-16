@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-final class BorrowLoanRequest extends FormRequest
+final class StoreLoanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ final class BorrowLoanRequest extends FormRequest
     public function rules() : array
     {
         return [
-            //
+            'book_id' => ['required', 'exists:books,id'],
         ];
     }
 }

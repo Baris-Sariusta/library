@@ -5,44 +5,34 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Contracts\ApiController;
-use App\Http\Requests\BorrowLoanRequest;
+use App\Http\Requests\StoreLoanRequest;
 use App\Http\Resources\LoanResource;
-use App\Models\Book;
 use App\Services\LoanService;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 final class LoanController extends ApiController
 {
     /**
-     * Borrow a book.
+     * Store a record of a new loan.
      */
-    public function borrow(BorrowLoanRequest $request, Book $book, LoanService $loanService)
+    public function store(StoreLoanRequest $request, LoanService $loanService)
     {
         try
         {
             $loan = $loanService->borrowBook(
-                book: $book,
+                book: $request->validated(), // Pass only the validated fields to the service...
                 user: $request->user(),
             );
 
             return $this->ok(
-                message: 'Book successfully borrowed',
+                message: 'Succesfully added new loan',
                 data: new LoanResource($loan),
-                statusCode: 201,
+                statusCode: 201, // Status code should be 201, since a new resource is created...
             );
         }
-        catch (ModelNotFoundException $exception)
+        catch (ValidationException $exception)
         {
-            return $this->error('Book not found', 404);
+            return $this->error(message: $exception->getMessage(), statusCode: 422); // 422: Request is invalid for business rules...
         }
-    }
-
-    /**
-     * Return a book.
-     */
-    public function return(Request $request, $bookId)
-    {
-        //
     }
 }
