@@ -18,11 +18,14 @@ final class LoanResource extends JsonResource
     public function toArray(Request $request) : array
     {
         return [
-            'type' => 'book',
+            'type' => 'loan',
             'id' => $this->id,
             'attributes' => [
-                'title' => $this->title,
-                'description' => $this->description,
+                'book_id' => $this->book_id,
+                'user_id' => $this->user_id,
+                'loan_date' => $this->loan_date,
+                'return_date' => $this->return_date,
+                'status' => $this->status,
             ],
         ];
     }

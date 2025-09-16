@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\ApiController;
 use App\Http\Requests\BorrowLoanRequest;
+use App\Http\Resources\LoanResource;
 use App\Models\Book;
 use App\Services\LoanService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -20,9 +21,9 @@ final class LoanController extends ApiController
     {
         try
         {
-            $loanService->borrowBook(
+            $loan = $loanService->borrowBook(
                 book: $book,
-                user: auth()->user(),
+                user: $request->user(),
             );
 
             return $this->ok(

@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enums\LoanStatus;
 use App\Models\Book;
+use App\Models\Loan;
 use App\Models\User;
+use Illuminate\Validation\ValidationException;
 
 /** @untested */
 final class LoanService
@@ -13,25 +16,21 @@ final class LoanService
     /**
      * Borrow a book for a user.
      */
-    public function borrowBook(Book $book, User $user) : Book
+    public function borrowBook(Book $book, User $user) : Loan
     {
-        // Check if the book is available...
-        $alreadyBorrowed = $book->loans()
-            ->whereNull('return_date')
-            ->exists();
-
-        if ($alreadyBorrowed)
+        // An exception should be thrown if the book is already borrowed...
+        if (! $book->isAvailable())
         {
             throw ValidationException::withMessages([
-                'book' => 'Dit boek is al uitgeleend.',
+                'book' => 'Dit boek is momenteel uitgeleend.',
             ]);
         }
 
-        // add new loan...
+        // Create a new loan record to mark the book as borrowed...
         return $book->loans()->create([
             'user_id' => $user->id,
             'loan_date' => now(),
-            'status' => 'borrowed',
+            'status' => LoanStatus::ONGOING,
         ]);
     }
 }
