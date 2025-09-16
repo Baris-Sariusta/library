@@ -32,7 +32,7 @@ final class LoanController extends ApiController
         }
         catch (ValidationException $exception)
         {
-            return $this->error(message: $exception->getMessage(), statusCode: 422); // 422: Request is invalid for business rules...
+            return $this->error(message: $exception->getMessage(), statusCode: 422); // 422: Request is invalid for existing business rules...
         }
     }
 }
