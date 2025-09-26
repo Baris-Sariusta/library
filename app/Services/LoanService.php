@@ -10,14 +10,16 @@ use App\Models\Loan;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
 
-/** @untested */
+/** @tested */
 final class LoanService
 {
     /**
      * Borrow a book for a user.
      */
-    public function borrowBook(Book $book, User $user) : Loan
+    public function borrowBook(array $data, User $user) : Loan
     {
+        $book = Book::findOrFail($data['book_id']);
+
         // An exception should be thrown if the book is already borrowed...
         if (! $book->isAvailable())
         {

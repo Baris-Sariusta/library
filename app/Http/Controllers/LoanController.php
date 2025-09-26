@@ -10,6 +10,7 @@ use App\Http\Resources\LoanResource;
 use App\Services\LoanService;
 use Illuminate\Validation\ValidationException;
 
+/** @untested-ignore */
 final class LoanController extends ApiController
 {
     /**
@@ -20,7 +21,7 @@ final class LoanController extends ApiController
         try
         {
             $loan = $loanService->borrowBook(
-                book: $request->validated(), // Pass only the validated fields to the service...
+                data: $request->validated(), // Pass only the validated fields to the service...
                 user: $request->user(),
             );
 

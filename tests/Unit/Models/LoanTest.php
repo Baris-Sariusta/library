@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\LoanStatus;
 use App\Models\Loan;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
@@ -15,7 +16,7 @@ it('should construct a Loan model', function () : void
         ->book_id->toBeInt()
         ->loan_date->toBeInstanceOf(Carbon::class)
         ->return_date->toBeInstanceOf(Carbon::class)
-        ->status->toBeString()
+        ->status->toBeInstanceOf(LoanStatus::class)
         ->updated_at->toBeInstanceOf(Carbon::class)
         ->created_at->toBeInstanceOf(Carbon::class);
 });
