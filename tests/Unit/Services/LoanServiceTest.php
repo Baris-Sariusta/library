@@ -50,12 +50,10 @@ it('borrows a book for a user', function () : void
 
 test('throws a validation error if the book is already borrowed', function () : void
 {
-    $otherUser = User::factory()->create();
-
     // Create an ongoing loan for the book...
     Loan::factory()
         ->for($this->book)
-        ->for($otherUser)
+        ->for(User::factory()->create())
         ->asOngoing()
         ->create();
 

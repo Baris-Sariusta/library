@@ -95,8 +95,8 @@ it('validates missing required fields', function (array $invalidPayloads, string
         ->assertStatus(422)
         ->assertJsonValidationErrors($expectedErrors);
 })->with([
-    'missing title' => fn () : array => [collect($this->payload)->except('title')->toArray(), 'title'],
-    'missing author' => fn () : array => [collect($this->payload)->except('author_id')->toArray(), 'author_id'],
-    'missing genres' => fn () : array => [collect($this->payload)->except('genre_ids')->toArray(), 'genre_ids'],
-    'missing price' => fn () : array => [collect($this->payload)->except('price')->toArray(), 'price'],
+    'payload with missing title' => fn () : array => [collect($this->payload)->except('title')->toArray(), 'title'],
+    'payload with missing author' => fn () : array => [collect($this->payload)->except('author_id')->toArray(), 'author_id'],
+    'payload with missing genres' => fn () : array => [collect($this->payload)->except('genre_ids')->toArray(), 'genre_ids'],
+    'payload with missing price' => fn () : array => [collect($this->payload)->except('price')->toArray(), 'price'],
 ]);
