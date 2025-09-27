@@ -54,6 +54,20 @@ arch('all controllers should end with "Controller"')
     ->toHaveSuffix('Controller');
 
 /**
+ * Define the architecture tests for all Services.
+ */
+arch('all service classes should end with "Service"')
+    ->expect('App\Services')
+    ->toHaveSuffix('Service');
+
+/**
+ * Define the architecture tests for all Policies.
+ */
+arch('all policy classes should end with "Policy"')
+    ->expect('App\Policies')
+    ->toHaveSuffix('Policy');
+
+/**
  * Define the architecture tests for all ServiceProviders.
  */
 arch('all service providers should end with "Provider"')
