@@ -24,7 +24,7 @@ final class LoanService
         if (! $book->isAvailable())
         {
             throw ValidationException::withMessages([
-                'book' => 'Dit boek is momenteel uitgeleend.',
+                'book' => 'This book is already borrowed.',
             ]);
         }
 

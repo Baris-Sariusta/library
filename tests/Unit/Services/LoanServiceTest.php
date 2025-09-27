@@ -64,7 +64,7 @@ test('throws a validation error if the book is already borrowed', function () : 
     );
 })->throws(
     exception: ValidationException::class,
-    exceptionMessage: 'Dit boek is momenteel uitgeleend.',
+    exceptionMessage: 'This book is already borrowed.',
 );
 
 todo('that a user can return a book');

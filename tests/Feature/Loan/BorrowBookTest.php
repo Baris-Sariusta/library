@@ -68,6 +68,6 @@ it('fails if the book is already borrowed', function () : void
         )
         ->assertStatus(422)
         ->assertJson([
-            'message' => 'Dit boek is momenteel uitgeleend.',
+            'message' => 'This book is already borrowed.',
         ]);
 });
