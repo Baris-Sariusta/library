@@ -1,5 +1,5 @@
 <p align="center">
-  <img height="150px" src="https://raw.githubusercontent.com/Bariss61/library/refs/heads/main/assets/banner-library.png?token=GHSAT0AAAAAADGT3BLH42I3QJMBUKFZ26EY2DRSNJA" alt="Library App Banner">
+  <img height="150px" src="assets/banner-library.png" alt="Library App Banner">
 </p>
 
 <p align="center">
@@ -33,22 +33,9 @@ As a junior developer I still have a lot to learn, and this project is a great w
 - Feature, Unit and Architecture tests using Pest
 ---
 
-## ⚙️ Installation
-
-```bash
-git clone https://github.com/Bariss61/library.git
-cd library
-composer install
-cp .env.example .env # Create own local env file
-php artisan key:generate # Generate app encryption key
-php artisan migrate --seed
-php artisan serve
-```
----
-
 ## 🗺️ Database Design
 
 Below is an overview of the current database schema:
 
-<img height="500" src="https://raw.githubusercontent.com/Bariss61/library/refs/heads/main/assets/db-design.png?token=GHSAT0AAAAAADGT3BLHOMB3EWDRGKXX3JKE2DRSNLA" alt="Database schema" />
+<img height="500" src="assets/db-design.png" alt="Database schema" />
 
