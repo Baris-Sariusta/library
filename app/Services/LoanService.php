@@ -16,9 +16,7 @@ final class LoanService
     /**
      * Borrow a book for a user.
      *
-     * @param array{book_id: int} $data
-     * @param \App\Models\User $user
-     * @return \App\Models\Loan
+     * @param  array{book_id: int}  $data
      *
      * @throws \Illuminate\Validation\ValidationException
      */

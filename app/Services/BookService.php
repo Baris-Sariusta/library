@@ -25,8 +25,6 @@ final class BookService
      *     publisher: string|null,
      *     cover_image: string|null,
      * } $data
-     *
-     * @return \App\Models\Book
      */
     public function createBook(array $data) : Book
     {
