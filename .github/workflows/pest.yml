@@ -32,22 +32,27 @@ jobs:
           --health-retries=5
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - uses: shivammathur/setup-php@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '8.4'
           extensions: pdo_mysql
 
-      - name: Prepare .env.testing
-        run: cp .env.example .env.testing
+      - name: Create .env.testing
+        run: |
+          cp .env.example .env.testing
+          echo "DB_CONNECTION=mysql" >> .env.testing
+          echo "DB_HOST=127.0.0.1" >> .env.testing
+          echo "DB_PORT=3306" >> .env.testing
+          echo "DB_DATABASE=library_tests" >> .env.testing
+          echo "DB_USERNAME=root" >> .env.testing
+          echo "DB_PASSWORD=root" >> .env.testing
 
-      # desnoods deze, zodat artisan ook .env.testing gebruikt:
-      - name: Use testing env as default
+      - name: Copy to .env
         run: cp .env.testing .env
-
-      - name: Install deps
-        run: composer install --prefer-dist --no-interaction --no-scripts
 
       - name: Run migrations
         run: php artisan migrate --env=testing --force
