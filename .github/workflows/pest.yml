@@ -14,9 +14,6 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
-    name: Run Pest tests
-    if: github.event.pull_request.draft == false
-
     services:
       mysql:
         image: mysql:8.0
@@ -41,6 +38,9 @@ jobs:
           php-version: '8.4'
           extensions: pdo_mysql
 
+      - name: Install Composer dependencies 📦
+        run: composer install --no-interaction --prefer-dist --no-scripts
+
       - name: Create .env.testing
         run: |
           cp .env.example .env.testing
@@ -54,5 +54,9 @@ jobs:
       - name: Copy to .env
         run: cp .env.testing .env
 
+      - name: Generate app key
+        run: php artisan key:generate --env=testing
+
       - name: Run migrations
         run: php artisan migrate --env=testing --force
+
