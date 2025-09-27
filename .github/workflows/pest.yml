@@ -60,3 +60,5 @@ jobs:
       - name: Run migrations
         run: php artisan migrate --env=testing --force
 
+      - name: Run Pest
+        run: ./vendor/bin/pest
