@@ -26,7 +26,7 @@ jobs:
       - name: Setup PHP and Composer ⚙️
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
+          php-version: ${{ matrix.php }}
           tools: composer:v2
 
       - name: Install dependencies 📦

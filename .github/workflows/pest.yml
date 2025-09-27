@@ -29,36 +29,42 @@ jobs:
           --health-retries=5
 
     steps:
-      - name: Checkout Code
+      - name: Checkout Code 🔎
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
-      - name: Setup PHP
+      - name: Setup PHP and Composer ⚙️
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.4'
-          extensions: pdo_mysql
+          php-version: ${{ matrix.php }}
+          tools: pdo_mysql
 
-      - name: Install Composer dependencies 📦
+      - name: Cache composer dependencies 📦
+        uses: actions/cache@v4
+        with:
+          path: vendor/
+          key: composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: composer-cache-
+
+      - name: Install dependencies 🪛
         run: composer install --no-interaction --prefer-dist --no-scripts
 
-      - name: Create .env.testing
-        run: |
-          cp .env.example .env.testing
-          echo "DB_CONNECTION=mysql" >> .env.testing
-          echo "DB_HOST=127.0.0.1" >> .env.testing
-          echo "DB_PORT=3306" >> .env.testing
-          echo "DB_DATABASE=library_tests" >> .env.testing
-          echo "DB_USERNAME=root" >> .env.testing
-          echo "DB_PASSWORD=root" >> .env.testing
+      - name: Create environment file 🪛
+        run: mv .env.testing .env
 
-      - name: Copy to .env
-        run: cp .env.testing .env
-
-      - name: Generate app key
+      - name: Generate app key 🔑
         run: php artisan key:generate --env=testing
 
       - name: Run migrations
         run: php artisan migrate --env=testing --force
 
-      - name: Run Pest
-        run: ./vendor/bin/pest
+      - name: Run Pest 🚀
+        run: ./vendor/bin/pest --configuration=phpunit.xml --colors=always --compact --display-incomplete --display-skipped --display-notices --display-warnings
+
+      - name: Archive logs 🗄️
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: Laravel Log
+          path: ./storage/logs/laravel.log
