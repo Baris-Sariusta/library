@@ -28,11 +28,16 @@ jobs:
           --health-timeout=5s
           --health-retries=5
 
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [ 8.4 ]
+
+    name: PHP ${{ matrix.php }}
+
     steps:
       - name: Checkout Code 🔎
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
 
       - name: Setup PHP and Composer ⚙️
         uses: shivammathur/setup-php@v2
@@ -48,7 +53,7 @@ jobs:
           restore-keys: composer-cache-
 
       - name: Install dependencies 🪛
-        run: composer install --no-progress --no-suggest --optimize-autoloader --no-interaction --prefer-dist --no-scripts
+        run: composer install --no-progress --optimize-autoloader --no-interaction --prefer-dist --no-scripts
 
       - name: Create environment file 🪛
         run: mv .env.testing .env

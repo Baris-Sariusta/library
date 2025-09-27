@@ -20,13 +20,11 @@ jobs:
     steps:
       - name: Checkout Code 🔎
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
 
       - name: Setup PHP and Composer ⚙️
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php }}
+          php-version: '8.4'
           tools: composer:v2
 
       - name: Install dependencies 📦
