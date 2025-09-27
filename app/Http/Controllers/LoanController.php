@@ -8,6 +8,7 @@ use App\Contracts\ApiController;
 use App\Http\Requests\StoreLoanRequest;
 use App\Http\Resources\LoanResource;
 use App\Services\LoanService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
 /** @untested-ignore */
@@ -16,7 +17,7 @@ final class LoanController extends ApiController
     /**
      * Store a record of a new loan.
      */
-    public function store(StoreLoanRequest $request, LoanService $loanService)
+    public function store(StoreLoanRequest $request, LoanService $loanService) : JsonResponse
     {
         try
         {

@@ -13,6 +13,20 @@ final class BookService
 {
     /**
      * Create a new book with the provided data and user.
+     *
+     * @param array{
+     *     title: string,
+     *     description: string|null,
+     *     author_id: int,
+     *     genre_ids: array<int, int>,
+     *     published_at: string|null,
+     *     language: string,
+     *     price: float,
+     *     publisher: string|null,
+     *     cover_image: string|null,
+     * } $data
+     *
+     * @return \App\Models\Book
      */
     public function createBook(array $data) : Book
     {
