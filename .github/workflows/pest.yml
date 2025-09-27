@@ -20,41 +20,34 @@ jobs:
     services:
       mysql:
         image: mysql:8.0
-        ports:
-          - 3306:3306
         env:
           MYSQL_DATABASE: library_tests
-          MYSQL_USER: root
-          MYSQL_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
-      - name: Checkout Code 🔎
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
+      - uses: actions/checkout@v4
 
-      - name: Setup PHP and Composer ⚙️
-        uses: shivammathur/setup-php@v2
+      - uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ env.PHP_VERSION }}
-          extensions: ${{ env.PHP_EXTENSIONS }}
-          tools: composer:v2
+          php-version: '8.4'
+          extensions: pdo_mysql
 
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: vendor/
-          key: composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: composer-cache-
+      - name: Prepare .env.testing
+        run: cp .env.example .env.testing
 
-      - name: Install dependencies 📦
+      # desnoods deze, zodat artisan ook .env.testing gebruikt:
+      - name: Use testing env as default
+        run: cp .env.testing .env
+
+      - name: Install deps
         run: composer install --prefer-dist --no-interaction --no-scripts
-
-      - name: Copy .env
-        run: cp .env.example .env
-
-      - name: Generate app key
-        run: php artisan key:generate
 
       - name: Run migrations
         run: php artisan migrate --env=testing --force
