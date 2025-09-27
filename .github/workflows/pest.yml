@@ -53,12 +53,6 @@ jobs:
       - name: Create environment file 🪛
         run: mv .env.testing .env
 
-      - name: Generate app key 🔑
-        run: php artisan key:generate --env=testing
-
-      - name: Run migrations
-        run: php artisan migrate --env=testing --force
-
       - name: Run Pest 🚀
         run: ./vendor/bin/pest --configuration=phpunit.xml --colors=always --compact --display-incomplete --display-skipped --display-notices --display-warnings
 
