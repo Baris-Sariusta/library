@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Loan;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-final class StoreLoanRequest extends FormRequest
+final class UpdateLoanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

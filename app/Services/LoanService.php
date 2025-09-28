@@ -39,4 +39,16 @@ final class LoanService
             'status' => LoanStatus::ONGOING,
         ]);
     }
+
+    /**
+     * Return a book that was borrowed.
+     *
+     * @param array{...?}  $data
+     *
+     * @throws?
+     */
+    public function returnBook(array $data, Loan $loan) : Loan
+    {
+        //
+    }
 }

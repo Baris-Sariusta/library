@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Models\Author;
 use App\Models\Book;
-use App\Models\User;
 
 /** @tested */
 final class BookService
