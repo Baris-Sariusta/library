@@ -43,7 +43,7 @@ final class LoanService
     /**
      * Return a book that was borrowed.
      *
-     * @param array{...}  $data
+     * @param  array{...}  $data
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -56,7 +56,7 @@ final class LoanService
         }
 
         // Ensure that the given book_id matches the id of the loan...
-        if($data['book_id'] !== $loan->book_id)
+        if ($data['book_id'] !== $loan->book_id)
         {
             throw validationException::withMessages('Book ID does not match this loan.');
         }

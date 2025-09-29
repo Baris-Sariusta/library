@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use App\Enums\LoanStatus;
+use App\Enums\UserRole;
 use App\Models\Loan;
 use App\Models\User;
-use App\Enums\UserRole;
 
 test('that a user can return a book', function () : void
 {
