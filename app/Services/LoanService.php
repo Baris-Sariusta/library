@@ -43,12 +43,36 @@ final class LoanService
     /**
      * Return a book that was borrowed.
      *
-     * @param array{...?}  $data
+     * @param array{...}  $data
      *
-     * @throws?
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function returnBook(array $data, Loan $loan) : Loan
+    public function returnBook(array $data, Loan $loan, User $user) : Loan
     {
-        //
+        // Ensure the loan belongs to the authenticated user...
+        if ($loan->user_id !== $user->id)
+        {
+            throw validationException::withMessages('This loan is not yours.');
+        }
+
+        // Ensure that the given book_id matches the id of the loan...
+        if($data['book_id'] !== $loan->book_id)
+        {
+            throw validationException::withMessages('Book ID does not match this loan.');
+        }
+
+        // Only ongoing loans can be returned...
+        if (! $loan->isOngoing())
+        {
+            throw validationException::withMessages('This loan cannot be returned.');
+        }
+
+        // Update the status and return_date fields...
+        $loan->update([
+            'status' => LoanStatus::RETURNED,
+            'return_date' => now(),
+        ]);
+
+        return $loan;
     }
 }

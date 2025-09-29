@@ -54,4 +54,12 @@ final class Loan extends Model
     {
         return $this->belongsTo(Book::class);
     }
+
+    /**
+     * Determine whether the loan is still ongoing.
+     */
+    public function isOngoing() : bool
+    {
+        return $this->status === LoanStatus::ONGOING;
+    }
 }

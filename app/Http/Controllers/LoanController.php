@@ -49,7 +49,8 @@ final class LoanController extends ApiController
         {
             $loanService->returnBook(
                 data: $request->validated(),
-                loan: $loan, // The Loan model contains the user_id...
+                loan: $loan,
+                user: $request->user(),
             );
 
             return $this->ok(

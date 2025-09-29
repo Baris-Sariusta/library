@@ -20,8 +20,8 @@ test('that a user can return a book', function () : void
 
     $this->actingAs($user)
         ->patch(
-            uri: '/api/loans',
-            data: [],
+            uri: "/api/loans/{$loan->id}",
+            data: ['book_id' => '1'],
         )
         ->assertOk();
 
