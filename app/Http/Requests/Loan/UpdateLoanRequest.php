@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Loan;
 
+use App\Rules\BookMatchesLoan;
 use Illuminate\Foundation\Http\FormRequest;
 
 final class UpdateLoanRequest extends FormRequest
@@ -13,7 +14,8 @@ final class UpdateLoanRequest extends FormRequest
      */
     public function authorize() : bool
     {
-        return true;
+        // Ensure that the loan belongs to the user of this request...
+        return $this->route('loan')->user_id === $this->user()->id;
     }
 
     /**
@@ -23,8 +25,15 @@ final class UpdateLoanRequest extends FormRequest
      */
     public function rules() : array
     {
+        // Retrieve the loan model from the current route...
+        // Type hint the variable so the IDE recognizes the model...
+        $loan = $this->route('loan'); /** @var \App\Models\Loan $loan */
+
         return [
-            'book_id' => ['required', 'exists:books,id'],
+            'book_id' => [
+                'required',
+                new BookMatchesLoan($loan),
+            ],
         ];
     }
 }
