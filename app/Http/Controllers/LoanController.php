@@ -47,11 +47,7 @@ final class LoanController extends ApiController
     {
         try
         {
-            $loanService->returnBook(
-                data: $request->validated(),
-                loan: $loan,
-                user: $request->user(),
-            );
+            $loanService->returnBook($loan);
 
             return $this->ok(
                 message: 'Succesfully returned loan',

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Enums\LoanStatus;
 use App\Models\Book;
 use App\Models\Loan;
 use App\Models\User;
@@ -33,45 +32,24 @@ final class LoanService
         }
 
         // Create a new loan record to mark the book as borrowed...
-        return $book->loans()->create([
-            'user_id' => $user->id,
-            'loan_date' => now(),
-            'status' => LoanStatus::ONGOING,
-        ]);
+        return $book->borrow($user->id);
     }
 
     /**
      * Return a book that was borrowed.
      *
-     * @param  array{...}  $data
-     *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function returnBook(array $data, Loan $loan, User $user) : Loan
+    public function returnBook(Loan $loan) : Loan
     {
-        // Ensure the loan belongs to the authenticated user...
-        if ($loan->user_id !== $user->id)
-        {
-            throw validationException::withMessages('This loan is not yours.');
-        }
-
-        // Ensure that the given book_id matches the id of the loan...
-        if ($data['book_id'] !== $loan->book_id)
-        {
-            throw validationException::withMessages('Book ID does not match this loan.');
-        }
-
         // Only ongoing loans can be returned...
         if (! $loan->isOngoing())
         {
             throw validationException::withMessages('This loan cannot be returned.');
         }
 
-        // Update the status and return_date fields...
-        $loan->update([
-            'status' => LoanStatus::RETURNED,
-            'return_date' => now(),
-        ]);
+        // Mark the loan as returned...
+        $loan->markAsReturned();
 
         return $loan;
     }
