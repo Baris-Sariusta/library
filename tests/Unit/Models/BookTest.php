@@ -65,8 +65,10 @@ it('can borrow a book for the given user', function () : void
 {
     $user = User::factory()->create();
 
+    // Borrow the book for the given user...
     $loan = $this->book->borrow($user->id);
 
+    // Assert that the loan is ongoing for the given user...
     expect($loan)->toBeInstanceOf(Loan::class)
         ->and($loan->book_id)->toBe($this->book->id)
         ->and($loan->user_id)->toBe($user->id)
