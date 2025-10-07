@@ -13,7 +13,7 @@ use Illuminate\Support\Carbon;
 
 beforeEach(function () : void
 {
-   $this->book = Book::factory()->create();
+    $this->book = Book::factory()->create();
 });
 
 it('should construct a Book model', function () : void

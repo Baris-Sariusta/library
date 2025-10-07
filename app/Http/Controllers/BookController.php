@@ -44,9 +44,6 @@ final class BookController extends ApiController
     {
         try
         {
-            // Check if the user has permission to create a book...
-            $this->authorize('create', Book::class);
-
             $book = $bookService->createBook(
                 data: $request->validated(), // Pass only the validated fields to the service...
             );
