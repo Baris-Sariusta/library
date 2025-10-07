@@ -85,4 +85,16 @@ final class Book extends Model
             ->where('status', LoanStatus::ONGOING)
             ->doesntExist();
     }
+
+    /**
+     * Borrow the book for the given user.
+     */
+    public function borrow(int $user_id) : Loan
+    {
+        return $this->loans()->create([
+            'user_id' => $user_id,
+            'loan_date' => now(),
+            'status' => LoanStatus::ONGOING,
+        ]);
+    }
 }
