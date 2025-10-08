@@ -63,7 +63,7 @@ final class Loan extends Model
         return $this->status === LoanStatus::ONGOING;
     }
 
-    /*
+    /**
      * Mark the loan as returned.
      */
     public function markAsReturned() : void
