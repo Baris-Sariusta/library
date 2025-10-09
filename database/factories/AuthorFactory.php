@@ -25,4 +25,14 @@ final class AuthorFactory extends Factory
             'birth_date' => $this->faker->date(),
         ];
     }
+
+    /**
+     * Indicate the author name.
+     */
+    public function withName(string $name) : self
+    {
+        return $this->state(fn () : array => [
+            'name' => $name,
+        ]);
+    }
 }

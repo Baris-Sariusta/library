@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Contracts\Model;
+use App\Enums\LoanStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -33,6 +34,7 @@ final class Loan extends Model
      * @var array<string, string>
      */
     protected $casts = [
+        'status' => LoanStatus::class,
         'loan_date' => 'date',
         'return_date' => 'date',
     ];

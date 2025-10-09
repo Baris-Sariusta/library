@@ -2,6 +2,18 @@
 
 declare(strict_types=1);
 
-todo('should construct a UserRole enum');
+use App\Enums\UserRole;
 
-todo('should have the functions in the enum');
+it('should construct a UserRole enum', function (UserRole $role) : void
+{
+    expect($role)
+        ->name->toBeString()
+        ->value->toBeString();
+})->with(UserRole::cases());
+
+it('should have the description function', function () : void
+{
+    expect(UserRole::MEMBER)->description()->toBe('Member');
+    expect(UserRole::LIBRARIAN)->description()->toBe('Librarian');
+    expect(UserRole::MANAGER)->description()->toBe('Manager');
+});

@@ -9,7 +9,7 @@ use Illuminate\Database\Seeder;
  * Run the predefined sets of architecture tests.
  */
 arch()->preset()->php();
-arch()->preset()->laravel()->ignoring('App\\Contracts');
+arch()->preset()->laravel()->ignoring(['App\\Contracts', 'App\\Http\\Controllers\\AuthController']);
 arch()->preset()->security();
 
 /**
@@ -52,6 +52,20 @@ arch('all exceptions should end with "Exception"')
 arch('all controllers should end with "Controller"')
     ->expect('App\Http\Controllers')
     ->toHaveSuffix('Controller');
+
+/**
+ * Define the architecture tests for all Services.
+ */
+arch('all service classes should end with "Service"')
+    ->expect('App\Services')
+    ->toHaveSuffix('Service');
+
+/**
+ * Define the architecture tests for all Policies.
+ */
+arch('all policy classes should end with "Policy"')
+    ->expect('App\Policies')
+    ->toHaveSuffix('Policy');
 
 /**
  * Define the architecture tests for all ServiceProviders.

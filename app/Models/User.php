@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\UserRole;
+use App\Models\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,6 +19,8 @@ final class User extends Authenticatable
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
+
+    use HasRoles;
     use Notifiable;
 
     /**
@@ -41,17 +45,16 @@ final class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, class-string|string>
      */
-    protected function casts() : array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'role' => UserRole::class,
+        'admin' => 'boolean',
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 
     /**
      * Get the ratings for the user.
@@ -78,5 +81,13 @@ final class User extends Authenticatable
             name: "API token for {$this->email}",
             expiresAt: now()->addMonth(), // The token should expire a month after it's given...
         )->plainTextToken; // The plain text of the token...
+    }
+
+    /**
+     * Determine if the user is an admin.
+     */
+    public function isAdmin() : bool
+    {
+        return $this->admin;
     }
 }
