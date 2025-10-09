@@ -30,9 +30,6 @@ final class AuthController extends ApiController
 
         $user = User::firstWhere('email', $request['email']);
 
-        // Don't send a token if the user is already logged in...
-        // ..
-
         return $this->ok(
             message: "Hello, {$user->username}",
             data: ['token' => $user->generateApiToken()],
