@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Laravel\Sanctum\PersonalAccessToken;
 
 /** @untested */
 final class loginUserRequest extends FormRequest
@@ -14,6 +16,19 @@ final class loginUserRequest extends FormRequest
      */
     public function authorize() : bool
     {
+        // Determine if there is an allowed token...
+        if ($this->bearerToken())
+        {
+            $activeToken = PersonalAccessToken::findToken($this->bearerToken());
+
+            if ($activeToken)
+            {
+                throw new HttpResponseException(response()->json([
+                    'message' => 'You are already logged in.',
+                ], status: 409));
+            }
+        }
+
         return true;
     }
 
