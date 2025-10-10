@@ -16,17 +16,14 @@ final class loginUserRequest extends FormRequest
      */
     public function authorize() : bool
     {
-        // Determine if there is an allowed token...
-        if ($this->bearerToken())
-        {
-            $activeToken = PersonalAccessToken::findToken($this->bearerToken());
+        $activeToken = PersonalAccessToken::findToken($this->bearerToken());
 
-            if ($activeToken)
-            {
-                throw new HttpResponseException(response()->json([
-                    'message' => 'You are already logged in.',
-                ], status: 409));
-            }
+        // Prevent already authenticated users from performing a new login attempt...
+        if ($activeToken)
+        {
+            throw new HttpResponseException(response()->json([
+                'message' => 'You are already logged in.',
+            ], status: 409));
         }
 
         return true;
