@@ -7,9 +7,14 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
+beforeEach(function () : void
+{
+    $this->user = User::factory()->create();
+});
+
 it('should construct a User model', function () : void
 {
-    expect(User::factory()->create())
+    expect($this->user)
         ->toBeInstanceOf(User::class)
         ->id->toBeInt()
         ->username->toBeString()
@@ -30,3 +35,13 @@ test('that the User has all relations', function (string $name, string $relation
     'ratings relation' => ['ratings', HasMany::class],
     'loans relation' => ['loans', HasMany::class],
 ]);
+
+it('can create a sanctum token record', function () : void
+{
+    $token = $this->user->generateApiToken();
+
+    // Determine that there is one token given for the user...
+    expect($this->user->tokens)
+        ->toHaveCount(1)
+        ->first()->name->toBe("API token for {$this->user->email}");
+});
