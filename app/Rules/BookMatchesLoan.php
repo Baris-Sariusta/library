@@ -8,6 +8,7 @@ use App\Models\Loan;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
+/** @tested */
 final class BookMatchesLoan implements ValidationRule
 {
     /**

@@ -36,3 +36,9 @@ test('that a user can return a book', function () : void
             'status' => LoanStatus::RETURNED,
         ]);
 });
+
+todo('that the book id should match the book of the loan');
+
+todo('that the user should match the user of the loan');
+
+todo('that only ongoing loans can be returned');

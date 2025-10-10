@@ -68,3 +68,5 @@ test('throws a validation error if the book is already borrowed', function () : 
 );
 
 todo('that a user can return a book');
+
+todo('that only ongoing loans can be returned');

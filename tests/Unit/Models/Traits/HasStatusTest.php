@@ -27,7 +27,6 @@ it('can determine the librarian role', function () : void
 
 it('can mark an ongoing loan as returned', function () : void
 {
-    // Make sure there is a loan with the status of 'ongoing'...
     $loan = Loan::factory()
         ->withStatus(LoanStatus::ONGOING)
         ->create();

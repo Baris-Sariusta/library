@@ -7,6 +7,7 @@ namespace App\Http\Requests\Loan;
 use App\Rules\BookMatchesLoan;
 use Illuminate\Foundation\Http\FormRequest;
 
+/** @tested */
 final class UpdateLoanRequest extends FormRequest
 {
     /**
