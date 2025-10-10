@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Laravel\Sanctum\PersonalAccessToken;
 
-/** @untested */
+/** @tested */
 final class loginUserRequest extends FormRequest
 {
     /**
