@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Models\User;
 
-it('fails to log in if a user is already authenticated', function ()
+it('fails to log in if a user is already authenticated', function () : void
 {
     $user = User::factory()->create();
 
