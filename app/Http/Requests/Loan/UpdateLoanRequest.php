@@ -14,8 +14,7 @@ final class UpdateLoanRequest extends FormRequest
      */
     public function authorize() : bool
     {
-        // Ensure that the loan belongs to the user of this request...
-        return $this->route('loan')->user_id === $this->user()->id;
+        return $this->user()->can('update', $this->route('loan'));
     }
 
     /**
