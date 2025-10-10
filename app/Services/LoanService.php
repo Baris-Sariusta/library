@@ -45,7 +45,9 @@ final class LoanService
         // Only ongoing loans can be returned...
         if (! $loan->isOngoing())
         {
-            throw validationException::withMessages('This loan cannot be returned.');
+            throw ValidationException::withMessages([
+                'book' => 'This book is already returned.',
+            ]);
         }
 
         // Mark the loan as returned...

@@ -13,7 +13,9 @@ final class BookMatchesLoan implements ValidationRule
     /**
      * Create a new rule instance.
      */
-    public function __construct(protected Loan $loan) {}
+    public function __construct(
+        private readonly Loan $loan,
+    ) {}
 
     /**
      * Run the validation rule.
