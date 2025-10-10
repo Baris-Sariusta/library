@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Contracts\Model;
 use App\Enums\LoanStatus;
+use App\Models\Traits\HasStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -14,6 +15,8 @@ final class Loan extends Model
 {
     /** @use HasFactory<\Database\Factories\LoanFactory> */
     use HasFactory;
+
+    use HasStatus;
 
     /**
      * The attributes that are mass assignable.
@@ -53,24 +56,5 @@ final class Loan extends Model
     public function book() : BelongsTo
     {
         return $this->belongsTo(Book::class);
-    }
-
-    /**
-     * Determine whether the loan is still ongoing.
-     */
-    public function isOngoing() : bool
-    {
-        return $this->status === LoanStatus::ONGOING;
-    }
-
-    /**
-     * Mark the loan as returned.
-     */
-    public function markAsReturned() : void
-    {
-        $this->update([
-            'status' => LoanStatus::RETURNED,
-            'return_date' => now(),
-        ]);
     }
 }
