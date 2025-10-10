@@ -18,6 +18,13 @@ use Illuminate\Http\JsonResponse;
 final class BookController extends ApiController
 {
     /**
+     * Create a new controller instance.
+     */
+    public function __construct(
+        private readonly BookService $bookService,
+    ) {}
+
+    /**
      * Display a listing of the resource.
      */
     public function index() : JsonResponse
@@ -40,11 +47,11 @@ final class BookController extends ApiController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookRequest $request, BookService $bookService) : JsonResponse
+    public function store(StoreBookRequest $request) : JsonResponse
     {
         try
         {
-            $book = $bookService->createBook(
+            $book = $this->bookService->createBook(
                 data: $request->validated(), // Pass only the validated fields to the service...
             );
 

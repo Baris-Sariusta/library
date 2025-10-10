@@ -17,13 +17,20 @@ use Illuminate\Validation\ValidationException;
 final class LoanController extends ApiController
 {
     /**
+     * Create a new controller instance.
+     */
+    public function __construct(
+        private readonly LoanService $loanService,
+    ) {}
+
+    /**
      * Store a record of a new loan.
      */
-    public function store(StoreLoanRequest $request, LoanService $loanService) : JsonResponse
+    public function store(StoreLoanRequest $request) : JsonResponse
     {
         try
         {
-            $loan = $loanService->borrowBook(
+            $loan = $this->loanService->borrowBook(
                 data: $request->validated(), // Pass only the validated fields to the service...
                 user: $request->user(),
             );
@@ -43,11 +50,11 @@ final class LoanController extends ApiController
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateLoanRequest $request, Loan $loan, LoanService $loanService) : JsonResponse
+    public function update(UpdateLoanRequest $request, Loan $loan) : JsonResponse
     {
         try
         {
-            $loanService->returnBook($loan);
+            $this->loanService->returnBook($loan);
 
             return $this->ok(
                 message: 'Succesfully returned loan',
