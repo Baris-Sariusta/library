@@ -39,9 +39,9 @@ it('borrows a book for a user', function () : void
         ->status->toBe(LoanStatus::ONGOING)
         ->book_id->toBe(11);
 
-    // Assert that the books table has the given data...
+    // Assert that the loans table has the given data...
     $this->assertDatabaseHas(
-        table: Loan::class,
+        table: Loan::getTableName(),
         data: [
             'user_id' => 22,
             'book_id' => 11,
@@ -67,6 +67,41 @@ test('throws a validation error if the book is already borrowed', function () : 
     exceptionMessage: 'This book is already borrowed.',
 );
 
-todo('that a user can return a book');
+test('that a user can return a book', function () : void
+{
+    $book = Book::factory()->create();
 
-todo('that only ongoing loans can be returned');
+    // Create a loan record for the book...
+    $loan = Loan::factory()
+        ->for($book)
+        ->asOngoing()
+        ->create();
+
+    $this->loanService->returnBook($loan);
+
+    expect($loan)
+        ->toBeInstanceOf(Loan::class)
+        ->status->toBe(LoanStatus::RETURNED)
+        ->book_id->toBe($book->id);
+
+    // Assert that the loans table has the given data...
+    $this->assertDatabaseHas(
+        table: Loan::getTableName(),
+        data: [
+            'status' => LoanStatus::RETURNED,
+            'return_date' => now()->format('Y-m-d'),
+            'book_id' => $book->id,
+        ]);
+});
+
+it('fails if the loan is already returned', function () : void
+{
+    $loan = Loan::factory()
+        ->asReturned()
+        ->create();
+
+    $this->loanService->returnBook($loan);
+})->throws(
+    exception: ValidationException::class,
+    exceptionMessage: 'This book is already returned.',
+);
