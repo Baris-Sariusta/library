@@ -19,7 +19,7 @@ it('fails to log in if a user is already authenticated', function ()
             'password' => 'password',
         ]);
 
-    // Make sure the request is blocked, since the user is already authenticated...
+    // The request should be blocked, since the user is already authenticated...
     $response->assertStatus(409)
         ->assertJson(['message' => 'You are already logged in.']);
 });
