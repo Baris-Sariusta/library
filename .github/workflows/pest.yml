@@ -32,7 +32,10 @@ jobs:
           --health-retries=5
 
     env:
-      DB_HOST: mysql
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_PORT: 3306
+      DB_DATABASE: library_tests
       DB_USERNAME: sail
       DB_PASSWORD: ${{ secrets.TESTING_DB_PASSWORD }}
 
