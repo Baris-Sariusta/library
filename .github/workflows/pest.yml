@@ -31,10 +31,10 @@ jobs:
           --health-timeout=5s
           --health-retries=5
 
+    # Override Sail specific environment variables
     env:
       DB_CONNECTION: mysql
       DB_HOST: 127.0.0.1
-      DB_PORT: 3306
       DB_DATABASE: library_tests
       DB_USERNAME: sail
       DB_PASSWORD: ${{ secrets.TESTING_DB_PASSWORD }}
@@ -47,14 +47,6 @@ jobs:
     name: PHP ${{ matrix.php }}
 
     steps:
-      - name: Debug containers 🐳
-        run: |
-          echo "=== Running containers ==="
-          docker ps -a
-          echo
-          echo "=== Ping MySQL service ==="
-          nc -zv mysql 3306 || echo "Cannot reach mysql:3306"
-
       - name: Checkout Code 🔎
         uses: actions/checkout@v4
 
