@@ -74,8 +74,6 @@ jobs:
 
       - name: Run Pest 🚀
         run: ./vendor/bin/pest --configuration=phpunit.xml --colors=always --compact --display-incomplete --display-skipped --display-notices --display-warnings
-        env:
-          DB_HOST: mariadb
 
       - name: Archive logs 🗄️
         uses: actions/upload-artifact@v4
