@@ -20,11 +20,13 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_DATABASE: library_tests
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: sail
+          MYSQL_ROOT_PASSWORD: ${{ secrets.TESTING_DB_PASSWORD }}
+          MYSQL_PASSWORD: ${{ secrets.TESTING_DB_PASSWORD }}
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-cmd="mysqladmin ping"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
