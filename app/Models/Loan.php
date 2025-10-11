@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Contracts\Model;
 use App\Enums\LoanStatus;
+use App\Models\Traits\HasStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -14,6 +15,8 @@ final class Loan extends Model
 {
     /** @use HasFactory<\Database\Factories\LoanFactory> */
     use HasFactory;
+
+    use HasStatus;
 
     /**
      * The attributes that are mass assignable.

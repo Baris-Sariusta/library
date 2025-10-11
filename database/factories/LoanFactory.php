@@ -41,12 +41,32 @@ final class LoanFactory extends Factory
     }
 
     /**
+     * Indicate what the loan status is.
+     */
+    public function withStatus(LoanStatus $status) : self
+    {
+        return $this->state(fn () : array => [
+            'status' => $status,
+        ]);
+    }
+
+    /**
      * Indicate that the loan status is ongoing.
      */
     public function asOngoing() : self
     {
         return $this->state(fn () : array => [
             'status' => LoanStatus::ONGOING,
+        ]);
+    }
+
+    /**
+     * Indicate that the loan status is returned.
+     */
+    public function asReturned() : self
+    {
+        return $this->state(fn () : array => [
+            'status' => LoanStatus::RETURNED,
         ]);
     }
 }

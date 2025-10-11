@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\ApiController;
 use App\Http\ApiResponses;
-use App\Http\Requests\loginUserRequest;
+use App\Http\Requests\User\loginUserRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
