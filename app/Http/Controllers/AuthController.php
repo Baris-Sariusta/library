@@ -32,14 +32,7 @@ final class AuthController extends ApiController
 
         return $this->ok(
             message: "Hello, {$user->username}",
-            data: [
-                'token' => $user
-                    ->createToken(
-                        name: "API token for {$user['email']}",
-                        expiresAt: now()->addMonth(), // The token should expire a month after it's given...
-                    )
-                    ->plainTextToken, // The plain text of the token...
-            ],
+            data: ['token' => $user->generateApiToken()],
         );
     }
 
