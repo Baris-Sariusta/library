@@ -55,6 +55,12 @@ jobs:
           key: composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: composer-cache-
 
+      - name: Verify MySQL connection 👀
+        run: |
+          mysql --version
+          sudo apt-get install -y mysql-client
+          mysql --host=127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -usail -p${{ secrets.TESTING_DB_PASSWORD }} -e "SHOW DATABASES"
+
       - name: Install dependencies 🪛
         run: composer install --no-progress --optimize-autoloader --no-interaction --prefer-dist --no-scripts
 
