@@ -20,14 +20,24 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_DATABASE: library_tests
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: sail
+          MYSQL_ROOT_PASSWORD: ${{ secrets.TESTING_DB_PASSWORD }}
+          MYSQL_PASSWORD: ${{ secrets.TESTING_DB_PASSWORD }}
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-cmd="mysqladmin ping"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
+
+    # Override Sail specific environment variables
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_DATABASE: library_tests
+      DB_USERNAME: sail
+      DB_PASSWORD: ${{ secrets.TESTING_DB_PASSWORD }}
 
     strategy:
       fail-fast: true
@@ -52,6 +62,12 @@ jobs:
           path: vendor/
           key: composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: composer-cache-
+
+      - name: Verify MySQL connection 👀
+        run: |
+          mysql --version
+          sudo apt-get install -y mysql-client
+          mysql --host=127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -usail -p${{ secrets.TESTING_DB_PASSWORD }} -e "SHOW DATABASES"
 
       - name: Install dependencies 🪛
         run: composer install --no-progress --optimize-autoloader --no-interaction --prefer-dist --no-scripts
