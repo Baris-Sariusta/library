@@ -45,13 +45,12 @@ jobs:
 
     steps:
       - name: Debug containers 🐳
-      - run: |
+        run: |
           echo "=== Running containers ==="
           docker ps -a
           echo
           echo "=== Ping MySQL service ==="
           nc -zv mysql 3306 || echo "Cannot reach mysql:3306"
-
 
       - name: Checkout Code 🔎
         uses: actions/checkout@v4
