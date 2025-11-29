@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Enums\UserRole;
+use App\Jobs\SendBookPostedMail;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Genre;
@@ -100,3 +101,14 @@ it('validates missing required fields', function (array $invalidPayloads, string
     'payload with missing genres' => fn () : array => [collect($this->payload)->except('genre_ids')->toArray(), 'genre_ids'],
     'payload with missing price' => fn () : array => [collect($this->payload)->except('price')->toArray(), 'price'],
 ]);
+
+it('dispatches the mail job when a book is created', function () : void
+{
+   Bus::fake();
+
+    actingAsUser(role: UserRole::LIBRARIAN)
+        ->postJson(uri: '/api/books', data: $this->payload)
+        ->assertCreated();
+
+    Bus::assertDispatched(SendBookPostedMail::class, 1);
+});
