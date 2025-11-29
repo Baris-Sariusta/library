@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Contracts\ApiController;
-use App\Http\Requests\StoreBookRequest;
-use App\Http\Requests\UpdateBookRequest;
+use App\Http\Requests\Book\StoreBookRequest;
+use App\Http\Requests\Book\UpdateBookRequest;
 use App\Http\Resources\BookResource;
 use App\Jobs\SendBookPostedMail;
 use App\Models\Book;
@@ -19,6 +19,13 @@ use Illuminate\Support\Facades\Mail;
 /** @untested-ignore */
 final class BookController extends ApiController
 {
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct(
+        private readonly BookService $bookService,
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -42,14 +49,11 @@ final class BookController extends ApiController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookRequest $request, BookService $bookService) : JsonResponse
+    public function store(StoreBookRequest $request) : JsonResponse
     {
         try
         {
-            // Check if the user has permission to create a book...
-            $this->authorize('create', Book::class);
-
-            $book = $bookService->createBook(
+            $book = $this->bookService->createBook(
                 data: $request->validated(), // Pass only the validated fields to the service...
             );
 

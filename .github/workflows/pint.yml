@@ -1,0 +1,42 @@
+name: Run Laravel Pint
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+    name: Run Laravel Pint
+    timeout-minutes: 5
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Checkout Code 🔎
+        uses: actions/checkout@v4
+
+      - name: Setup PHP and Composer ⚙️
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:v2
+
+      - name: Install dependencies 📦
+        run: composer install --prefer-dist --no-interaction --no-scripts
+
+      - name: Run Laravel Pint 🔧
+        uses: aglipanci/laravel-pint-action@2.4
+        with:
+          configPath: pint.json
+
+      - name: Commit Changes 🚀
+        uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          commit_message: Laravel Pint

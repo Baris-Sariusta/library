@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Contracts\Model;
+use App\Enums\LoanStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -72,5 +73,28 @@ final class Book extends Model
     public function loans() : HasMany
     {
         return $this->hasMany(Loan::class);
+    }
+
+    /**
+     * Determine whether the book can currently be borrowed.
+     */
+    public function isAvailable() : bool
+    {
+        // A book is considered available if there are no ongoing loans...
+        return $this->loans()
+            ->where('status', LoanStatus::ONGOING)
+            ->doesntExist();
+    }
+
+    /**
+     * Borrow the book for the given user.
+     */
+    public function borrow(int $user_id) : Loan
+    {
+        return $this->loans()->create([
+            'user_id' => $user_id,
+            'loan_date' => now(),
+            'status' => LoanStatus::ONGOING,
+        ]);
     }
 }

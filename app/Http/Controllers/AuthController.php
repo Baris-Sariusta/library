@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\ApiController;
 use App\Http\ApiResponses;
-use App\Http\Requests\loginUserRequest;
+use App\Http\Requests\User\loginUserRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -32,14 +32,7 @@ final class AuthController extends ApiController
 
         return $this->ok(
             message: "Hello, {$user->username}",
-            data: [
-                'token' => $user
-                    ->createToken(
-                        name: "API token for {$user['email']}",
-                        expiresAt: now()->addMonth(), // The token should expire a month after it's given...
-                    )
-                    ->plainTextToken, // The plain text of the token...
-            ],
+            data: ['token' => $user->generateApiToken()],
         );
     }
 

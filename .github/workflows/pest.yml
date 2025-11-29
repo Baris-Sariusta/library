@@ -1,0 +1,86 @@
+name: Run Pest tests
+
+on:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: library_tests
+          MYSQL_USER: sail
+          MYSQL_ROOT_PASSWORD: ${{ secrets.TESTING_DB_PASSWORD }}
+          MYSQL_PASSWORD: ${{ secrets.TESTING_DB_PASSWORD }}
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    # Override Sail specific environment variables
+    env:
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_DATABASE: library_tests
+      DB_USERNAME: sail
+      DB_PASSWORD: ${{ secrets.TESTING_DB_PASSWORD }}
+
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [ '8.4' ]
+
+    name: PHP ${{ matrix.php }}
+
+    steps:
+      - name: Checkout Code 🔎
+        uses: actions/checkout@v4
+
+      - name: Setup PHP and Composer ⚙️
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: pdo_mysql
+
+      - name: Cache composer dependencies 📦
+        uses: actions/cache@v4
+        with:
+          path: vendor/
+          key: composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: composer-cache-
+
+      - name: Verify MySQL connection 👀
+        run: |
+          mysql --version
+          sudo apt-get install -y mysql-client
+          mysql --host=127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -usail -p${{ secrets.TESTING_DB_PASSWORD }} -e "SHOW DATABASES"
+
+      - name: Install dependencies 🪛
+        run: composer install --no-progress --optimize-autoloader --no-interaction --prefer-dist --no-scripts
+
+      - name: Create environment file 🪛
+        run: mv .env.testing .env
+
+      - name: Run Pest 🚀
+        run: ./vendor/bin/pest --configuration=phpunit.xml --colors=always --compact --display-incomplete --display-skipped --display-notices --display-warnings
+
+      - name: Archive logs 🗄️
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: Laravel Log
+          path: ./storage/logs/laravel.log

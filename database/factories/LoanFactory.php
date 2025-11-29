@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Enums\LoanStatus;
 use App\Models\Book;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -25,7 +26,7 @@ final class LoanFactory extends Factory
             'book_id' => Book::factory(),
             'loan_date' => $this->faker->date(),
             'return_date' => $this->faker->optional()->date(),
-            'status' => $this->faker->randomElement(['ongoing', 'returned', 'late']),
+            'status' => $this->faker->randomElement(LoanStatus::cases()),
         ];
     }
 
@@ -36,6 +37,36 @@ final class LoanFactory extends Factory
     {
         return $this->state(fn () : array => [
             'return_date' => $date ?? $this->faker->date(),
+        ]);
+    }
+
+    /**
+     * Indicate what the loan status is.
+     */
+    public function withStatus(LoanStatus $status) : self
+    {
+        return $this->state(fn () : array => [
+            'status' => $status,
+        ]);
+    }
+
+    /**
+     * Indicate that the loan status is ongoing.
+     */
+    public function asOngoing() : self
+    {
+        return $this->state(fn () : array => [
+            'status' => LoanStatus::ONGOING,
+        ]);
+    }
+
+    /**
+     * Indicate that the loan status is returned.
+     */
+    public function asReturned() : self
+    {
+        return $this->state(fn () : array => [
+            'status' => LoanStatus::RETURNED,
         ]);
     }
 }

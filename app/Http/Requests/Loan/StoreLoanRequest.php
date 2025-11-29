@@ -2,19 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Loan;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-/** @untested */
-final class UpdateBookRequest extends FormRequest
+final class StoreLoanRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize() : bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,7 +24,7 @@ final class UpdateBookRequest extends FormRequest
     public function rules() : array
     {
         return [
-            //
+            'book_id' => ['required', 'exists:books,id'],
         ];
     }
 }
