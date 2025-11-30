@@ -48,4 +48,14 @@ final class BookFactory extends Factory
             'cover_image' => 'fop',
         ]);
     }
+
+    /**
+     * Indicate what the title is.
+     */
+    public function withTitle(string $title) : self
+    {
+        return $this->state(fn () : array => [
+            'title' => $title,
+        ]);
+    }
 }

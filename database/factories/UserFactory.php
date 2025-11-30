@@ -50,12 +50,22 @@ final class UserFactory extends Factory
     }
 
     /**
-     * Indicate that what the user role is.
+     * Indicate what the user role is.
      */
     public function withRole(UserRole $role) : self
     {
         return $this->state(fn () : array => [
             'role' => $role,
+        ]);
+    }
+
+    /**
+     * Indicate what the model's email address is.
+     */
+    public function withEmail(string $email) : self
+    {
+        return $this->state(fn () : array => [
+            'email' => $email,
         ]);
     }
 

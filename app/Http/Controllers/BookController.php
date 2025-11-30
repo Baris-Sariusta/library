@@ -8,11 +8,13 @@ use App\Contracts\ApiController;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Requests\Book\UpdateBookRequest;
 use App\Http\Resources\BookResource;
+use App\Mail\BookPosted;
 use App\Models\Book;
 use App\Services\BookService;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Mail;
 
 /** @untested-ignore */
 final class BookController extends ApiController
@@ -53,6 +55,11 @@ final class BookController extends ApiController
         {
             $book = $this->bookService->createBook(
                 data: $request->validated(), // Pass only the validated fields to the service...
+            );
+
+            // Send a confirmation mail to the user...
+            Mail::to($request->user())->queue(
+                new BookPosted($book->id, $book->title),
             );
 
             return $this->ok(
