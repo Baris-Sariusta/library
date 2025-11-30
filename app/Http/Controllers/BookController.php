@@ -58,7 +58,11 @@ final class BookController extends ApiController
             );
 
             // Send a confirmation mail to the user...
-            SendBookPostedMail::dispatch($request->user(), $book);
+            SendBookPostedMail::dispatch(
+                userMail: $request->user()->email,
+                bookId: $book->id,
+                bookTitle: $book->title,
+            );
 
             return $this->ok(
                 message: 'Successfully added new book',

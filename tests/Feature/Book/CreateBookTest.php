@@ -104,7 +104,7 @@ it('validates missing required fields', function (array $invalidPayloads, string
 
 it('dispatches the mail job when a book is created', function () : void
 {
-   Bus::fake();
+    Bus::fake();
 
     actingAsUser(role: UserRole::LIBRARIAN)
         ->postJson(uri: '/api/books', data: $this->payload)

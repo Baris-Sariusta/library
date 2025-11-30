@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Mail\BookPosted;
-use App\Models\Book;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Mail;
 
+/** @tested */
 final class SendBookPostedMail implements ShouldQueue
 {
     use Queueable;
@@ -18,10 +18,11 @@ final class SendBookPostedMail implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public User $user, public Book $book)
-    {
-        //
-    }
+    public function __construct(
+        protected string $userMail,
+        protected string $bookId,
+        protected string $bookTitle
+    ) {}
 
     /**
      * Execute the job.
@@ -30,8 +31,8 @@ final class SendBookPostedMail implements ShouldQueue
      */
     public function handle() : void
     {
-        Mail::to($this->user)->queue(
-            new BookPosted($this->book),
+        Mail::to($this->userMail)->send(
+            new BookPosted($this->bookId, $this->bookTitle),
         );
     }
 }
