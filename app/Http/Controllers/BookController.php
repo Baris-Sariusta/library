@@ -8,7 +8,7 @@ use App\Contracts\ApiController;
 use App\Http\Requests\Book\StoreBookRequest;
 use App\Http\Requests\Book\UpdateBookRequest;
 use App\Http\Resources\BookResource;
-use App\Jobs\SendBookPostedMail;
+use App\Mail\BookPosted;
 use App\Models\Book;
 use App\Services\BookService;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -58,10 +58,8 @@ final class BookController extends ApiController
             );
 
             // Send a confirmation mail to the user...
-            SendBookPostedMail::dispatch(
-                userMail: $request->user()->email,
-                bookId: $book->id,
-                bookTitle: $book->title,
+            Mail::to($request->user())->queue(
+                new BookPosted($book->id, $book->title),
             );
 
             return $this->ok(

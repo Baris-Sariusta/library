@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace App\Mail;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 
-final class BookPosted extends Mailable
+final class BookPosted extends Mailable implements ShouldQueue
 {
+    use Queueable;
+
     /**
      * Create a new message instance.
      */
-    public function __construct(public string $bookId, public string $bookTitle) {}
+    public function __construct(public int $bookId, public string $bookTitle) {}
 
     /**
      * Get the message envelope.

@@ -3,10 +3,11 @@
 declare(strict_types=1);
 
 use App\Enums\UserRole;
-use App\Jobs\SendBookPostedMail;
+use App\Mail\BookPosted;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Genre;
+use App\Models\User;
 
 beforeEach(function () : void
 {
@@ -102,13 +103,26 @@ it('validates missing required fields', function (array $invalidPayloads, string
     'payload with missing price' => fn () : array => [collect($this->payload)->except('price')->toArray(), 'price'],
 ]);
 
-it('dispatches the mail job when a book is created', function () : void
+it('pushes the confirmation mail to the queue when a book is created', function () : void
 {
-    Bus::fake();
+    Mail::fake();
 
-    actingAsUser(role: UserRole::LIBRARIAN)
+    $user = User::factory()
+        ->withEmail('test@example.com')
+        ->withRole(UserRole::LIBRARIAN)
+        ->create();
+
+    // Ensure that the mail job is not pushed to the queue...
+    Mail::assertNotQueued(BookPosted::class);
+
+    // Create a new book...
+    $this->actingAs($user)
         ->postJson(uri: '/api/books', data: $this->payload)
         ->assertCreated();
 
-    Bus::assertDispatched(SendBookPostedMail::class, 1);
+    // Ensure that the mail job is pushed to the queue for the correct user...
+    Mail::assertQueued(BookPosted::class, function (BookPosted $mail) : bool
+    {
+        return $mail->hasTo('test@example.com');
+    });
 });
