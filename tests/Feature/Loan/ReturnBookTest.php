@@ -27,7 +27,7 @@ beforeEach(function () : void
 test('that a user can return a book', function () : void
 {
     $this->actingAs($this->user)
-        ->patch(
+        ->patchJson(
             uri: "/api/loans/{$this->loan->id}",
             data: ['book_id' => $this->book->id],
         )
@@ -52,7 +52,7 @@ test('that the book id should match the book of the loan', function () : void
     // Create a request with the same user and loan id,
     // but for another book...
     $this->actingAs($this->user)
-        ->patch(
+        ->patchJson(
             uri: "/api/loans/{$this->loan->id}",
             data: ['book_id' => $otherBook->id],
         )
@@ -71,7 +71,7 @@ test('that the user should match the user id of the loan', function () : void
     // Create a request with the same book and loan id,
     // but with another user...
     $this->actingAs($otherUser)
-        ->patch(
+        ->patchJson(
             uri: "/api/loans/{$this->loan->id}",
             data: ['book_id' => $this->book->id],
         )
@@ -90,7 +90,7 @@ test('that only ongoing loans can be returned', function () : void
         ->create();
 
     $this->actingAs($this->user)
-        ->patch(
+        ->patchJson(
             uri: "/api/loans/{$loan->id}",
             data: ['book_id' => $this->book->id],
         )

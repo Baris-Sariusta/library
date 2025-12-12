@@ -11,7 +11,6 @@ use App\Http\Resources\LoanResource;
 use App\Models\Loan;
 use App\Services\LoanService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
 
 /** @untested-ignore */
 final class LoanController extends ApiController
@@ -28,23 +27,16 @@ final class LoanController extends ApiController
      */
     public function store(StoreLoanRequest $request) : JsonResponse
     {
-        try
-        {
-            $loan = $this->loanService->borrowBook(
-                data: $request->validated(), // Pass only the validated fields to the service...
-                user: $request->user(),
-            );
+        $loan = $this->loanService->borrowBook(
+            data: $request->validated(), // Pass only the validated fields to the service...
+            user: $request->user(),
+        );
 
-            return $this->ok(
-                message: 'Succesfully added new loan',
-                data: new LoanResource($loan),
-                statusCode: 201, // Status code should be 201, since a new resource is created...
-            );
-        }
-        catch (ValidationException $exception)
-        {
-            return $this->error(message: $exception->getMessage(), statusCode: 422); // 422: Request is invalid for existing business rules...
-        }
+        return $this->ok(
+            message: 'Succesfully added new loan',
+            data: new LoanResource($loan),
+            statusCode: 201, // Status code should be 201, since a new resource is created...
+        );
     }
 
     /**
@@ -52,18 +44,11 @@ final class LoanController extends ApiController
      */
     public function update(UpdateLoanRequest $request, Loan $loan) : JsonResponse
     {
-        try
-        {
-            $this->loanService->returnBook($loan);
+        $this->loanService->returnBook($loan);
 
-            return $this->ok(
-                message: 'Succesfully returned loan',
-                data: new LoanResource($loan),
-            );
-        }
-        catch (ValidationException $exception)
-        {
-            return $this->error(message: $exception->getMessage(), statusCode: 422);
-        }
+        return $this->ok(
+            message: 'Succesfully returned loan',
+            data: new LoanResource($loan),
+        );
     }
 }

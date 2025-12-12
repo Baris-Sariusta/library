@@ -11,8 +11,6 @@ use App\Http\Resources\BookResource;
 use App\Mail\BookPosted;
 use App\Models\Book;
 use App\Services\BookService;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Mail;
 
@@ -31,19 +29,12 @@ final class BookController extends ApiController
      */
     public function index() : JsonResponse
     {
-        try
-        {
-            $books = Book::with(['author', 'genres'])->paginate(5);
+        $books = Book::with(['author', 'genres'])->paginate(5);
 
-            return $this->ok(
-                message: 'Successfully retrieved books',
-                data: BookResource::collection($books),
-            );
-        }
-        catch (ModelNotFoundException $exception)
-        {
-            return $this->error(message: $exception->getMessage(), statusCode: 404);
-        }
+        return $this->ok(
+            message: 'Successfully retrieved books',
+            data: BookResource::collection($books),
+        );
     }
 
     /**
@@ -51,27 +42,23 @@ final class BookController extends ApiController
      */
     public function store(StoreBookRequest $request) : JsonResponse
     {
-        try
-        {
-            $book = $this->bookService->createBook(
-                data: $request->validated(), // Pass only the validated fields to the service...
-            );
+        // Check if the user has permission to create a book...
+        $this->authorize('create', Book::class);
 
-            // Send a confirmation mail to the user...
-            Mail::to($request->user())->queue(
-                new BookPosted($book->id, $book->title),
-            );
+        $book = $this->bookService->createBook(
+            data: $request->validated(), // Pass only the validated fields to the service...
+        );
 
-            return $this->ok(
-                message: 'Successfully added new book',
-                data: new BookResource($book),
-                statusCode: 201, // Status code should be 201, since a new resource is created...
-            );
-        }
-        catch (AuthorizationException $exception)
-        {
-            return $this->error(message: $exception->getMessage(), statusCode: 403);
-        }
+        // Send a confirmation mail to the user...
+        Mail::to($request->user())->queue(
+            new BookPosted($book->id, $book->title),
+        );
+
+        return $this->ok(
+            message: 'Successfully added new book',
+            data: new BookResource($book),
+            statusCode: 201, // Status code should be 201, since a new resource is created...
+        );
     }
 
     /**
@@ -79,19 +66,12 @@ final class BookController extends ApiController
      */
     public function show(int $book_id) : JsonResponse
     {
-        try
-        {
-            $book = Book::with(['author', 'genres'])->findOrFail($book_id);
+        $book = Book::with(['author', 'genres'])->findOrFail($book_id);
 
-            return $this->ok(
-                message: 'Successfully retrieved book',
-                data: new BookResource($book),
-            );
-        }
-        catch (ModelNotFoundException $exception)
-        {
-            return $this->error('Book not found', 404);
-        }
+        return $this->ok(
+            message: 'Successfully retrieved book',
+            data: new BookResource($book),
+        );
     }
 
     /**
