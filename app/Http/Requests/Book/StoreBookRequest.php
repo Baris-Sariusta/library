@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Book;
 
-use App\Models\Book;
 use Illuminate\Foundation\Http\FormRequest;
 
 /** @untested */
@@ -15,8 +14,7 @@ final class StoreBookRequest extends FormRequest
      */
     public function authorize() : bool
     {
-        // Ensure that the user has permission to create a book...
-        return $this->user()->can('create', Book::class);
+        return true;
     }
 
     /**
