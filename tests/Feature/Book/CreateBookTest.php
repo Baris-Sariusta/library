@@ -74,7 +74,7 @@ it('prevents creating duplicate books', function () : void
 {
     // First post request should succeed...
     actingAsUser(role: UserRole::LIBRARIAN)
-        ->post(uri: '/api/books', data: $this->payload)
+        ->postJson(uri: '/api/books', data: $this->payload)
         ->assertCreated();
 
     // Assert that the database has the data...
